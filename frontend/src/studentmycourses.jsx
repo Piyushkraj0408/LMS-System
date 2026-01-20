@@ -14,8 +14,7 @@ const Studentmycourses = () => {
           "http://localhost:5000/student/mycourses",
           { withCredentials: true }
         );
-
-        // res.data = [ { _id, courseId: { ...course } } ]
+        
         setCourses(res.data);
       } catch (err) {
         console.log(err);

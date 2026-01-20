@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import "./student.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Dash() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [user, setUser] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchUser();
     fetchDashboard();
   }, []);
 
-  // 🔹 Fetch logged-in student details
   const fetchUser = async () => {
     try {
       const res = await axios.get("http://localhost:5000/student/details", {
@@ -25,7 +25,6 @@ export default function Dash() {
     }
   };
 
-  // 🔹 Fetch dashboard data
   const fetchDashboard = async () => {
     try {
       const [c, a, n] = await Promise.all([
@@ -39,11 +38,6 @@ export default function Dash() {
           withCredentials: true,
         }),
       ]);
-
-      console.log("Courses:", c.data);
-      console.log("Assignments:", a.data);
-      console.log("Notifications:", n.data);
-
       setCourses(c.data);
       setAssignments(a.data);
       setNotifications(n.data);
@@ -71,7 +65,7 @@ export default function Dash() {
               <img src={course.img || "/default"} alt="coursepic" />
               <h4>{course.title}</h4>
               <p>{course.description || "Continue your learning journey"}</p>
-              <button>Open Course</button>
+              <button onClick={() => navigate(`/student/course/${course._id}`)}>Open Course</button>
             </div>
           ))}
         </div>

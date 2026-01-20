@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import RoleSelect from "./roleselect";
 import StudentAuth from "./studentauth";
 import Student from "./student";
@@ -31,71 +32,79 @@ import Studentmycourses from "./studentmycourses";
 import StudentCoursePage from "./StudentCoursePage";
 
 export default function App() {
+  const location = useLocation();
   return (
-    <Routes>
-      <Route path="/" element={<RoleSelect />} />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><RoleSelect /></PageTransition>} />
+        
+        <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
+        
+        <Route path="/facultyAuth" element={<PageTransition><FacultyAuth /></PageTransition>} />
 
-      <Route path="/admin" element={<Admin />} />
+        {/* 🔒 FACULTY PROTECTED */}
+        <Route
+          path="/faculty"
+          element={
+            <ProtectedRoute role="faculty">
+              <Faculty />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<PageTransition><FacultyDash /></PageTransition>} />
+          <Route path="dashboard" element={<PageTransition><FacultyDash /></PageTransition>} />
+          <Route path="courses" element={<PageTransition><FacultyCourse /></PageTransition>} />
+          <Route path="my-courses" element={<PageTransition><FacultyMyCourses /></PageTransition>} />
+          <Route path="course/:courseId" element={<PageTransition><FacultyCoursePage /></PageTransition>} />
+          <Route path="assignment" element={<PageTransition><FacultyAssignment /></PageTransition>} />
+          <Route path="quiz" element={<PageTransition><Facultyuquiz /></PageTransition>} />
+          <Route path="attendance" element={<PageTransition><Facultyattendence /></PageTransition>} />
+          <Route path="grade" element={<PageTransition><Facultygrade /></PageTransition>} />
+          <Route path="exam" element={<PageTransition><Facultyexam /></PageTransition>} />
+          <Route path="mystudents" element={<PageTransition><Facultystudent /></PageTransition>} />
+        </Route>
 
-      <Route path="/facultyAuth" element={<FacultyAuth />} />
+        <Route path="/studentauth" element={<PageTransition><StudentAuth /></PageTransition>} />
 
-      {/* 🔒 FACULTY PROTECTED */}
-      <Route
-        path="/faculty"
-        element={
-          <ProtectedRoute role="faculty">
-            <Faculty />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<FacultyDash />} />
-        <Route path="dashboard" element={<FacultyDash />} />
-        <Route path="courses" element={<FacultyCourse />} />{" "}
-        {/* create course */}
-        <Route path="my-courses" element={<FacultyMyCourses />} />{" "}
-        {/* show all courses */}
-        <Route path="course/:courseId" element={<FacultyCoursePage />} />
-        <Route path="assignment" element={<FacultyAssignment />} />
-        <Route path="quiz" element={<Facultyuquiz />} />
-        <Route path="attendance" element={<Facultyattendence />} />
-        <Route path="grade" element={<Facultygrade />} />
-        <Route path="exam" element={<Facultyexam />} />
-        <Route path="mystudents" element={<Facultystudent />} />
-      </Route>
-
-      <Route path="/studentauth" element={<StudentAuth />} />
-
-      {/* 🔒 STUDENT PROTECTED */}
-      <Route
-        path="/student"
-        element={
-          <ProtectedRoute role="student">
-            <Student />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dash />} />
-        <Route path="dashboard" element={<Dash />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="profile" element={<StudentProfile />} />
-        <Route path="mycourses" element={<Studentmycourses />} />
-        <Route path="course/:courseId" element={<StudentCoursePage />} />
-
-
-        {/* ✅ QUIZ ROUTES */}
-        <Route path="quiz" element={<Quiz />} />
-        <Route path="quizzes/:courseId" element={<StudentQuiz />} />
-
-        <Route path="assignment" element={<Assignment />} />
-
-        {/* ✅ ATTENDANCE ROUTES */}
-        <Route path="attendance" element={<Attendeance />} />
-        <Route path="attendance/:courseId" element={<StudentAttendance />} />
-
-        <Route path="grade" element={<Grade />} />
-        <Route path="grade/:courseId" element={<StudentGrade />} />
-        <Route path="exam" element={<Exam />} />
-      </Route>
-    </Routes>
+        {/* 🔒 STUDENT PROTECTED */}
+        <Route
+          path="/student"
+          element={
+            <ProtectedRoute role="student">
+              <Student />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<PageTransition><Dash /></PageTransition>} />
+          <Route path="dashboard" element={<PageTransition><Dash /></PageTransition>} />
+          <Route path="courses" element={<PageTransition><Courses /></PageTransition>} />
+          <Route path="profile" element={<PageTransition><StudentProfile /></PageTransition>} />
+          <Route path="mycourses" element={<PageTransition><Studentmycourses /></PageTransition>} />
+          <Route path="course/:courseId" element={<PageTransition><StudentCoursePage /></PageTransition>} />
+          <Route path="quiz" element={<PageTransition><Quiz /></PageTransition>} />
+          <Route path="quizzes/:courseId" element={<PageTransition><StudentQuiz /></PageTransition>} />
+          <Route path="assignment" element={<PageTransition><Assignment /></PageTransition>} />
+          <Route path="attendance" element={<PageTransition><Attendeance /></PageTransition>} />
+          <Route path="attendance/:courseId" element={<PageTransition><StudentAttendance /></PageTransition>} />
+          <Route path="grade" element={<PageTransition><Grade /></PageTransition>} />
+          <Route path="grade/:courseId" element={<PageTransition><StudentGrade /></PageTransition>} />
+          <Route path="exam" element={<PageTransition><Exam /></PageTransition>} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
   );
 }
+
+// 🎨 Reusable Animation Component
+const PageTransition = ({ children }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
