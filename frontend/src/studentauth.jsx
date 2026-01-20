@@ -65,31 +65,43 @@ export default function Studentauth() {
 
   // 🔐 LOGIN
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:5000/student-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-        credentials: "include",
-      });
+  try {
+    const res = await fetch("http://localhost:5000/student-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+      credentials: "include",   // 👈 important for cookies
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.status === 200) {
-        navigate("/student");
-      } else {
-        alert(data.error);
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-      alert("Something went wrong. Check console.");
+    if (!res.ok) {
+      alert(data.error || "Login failed");
+      return;
     }
+
+    // 🔑 ROLE-BASED REDIRECT
+    const role = data.role;
+
+    if (role === "admin") {
+      navigate("/admin");
+    } else if (role === "faculty") {
+      navigate("/faculty");
+    } else {
+      navigate("/student");
+    }
+
+  } catch (error) {
+    console.error("Fetch error:", error);
+    alert("Something went wrong. Check console.");
   }
+}
+
 
   // 📩 SEND OTP
   async function handleSendOTP(e) {
