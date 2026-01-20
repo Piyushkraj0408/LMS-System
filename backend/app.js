@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const Grade = require("./gradeModel");
+const CourseMaterial = require("./courseMaterialModel");
 const app = express();
 const Attendance = require("./attendanceModel");
 const Quiz = require("./quizModel");
@@ -89,6 +90,53 @@ async function fetchGithub(username) {
     followers: data.followers
   };
 }
+
+// ➕ FACULTY ADD COURSE MATERIAL
+app.post(
+  "/faculty/add-material",
+  verifyToken,
+  authorize(["faculty"]),
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const { courseId, title, type, url } = req.body;
+
+      const material = await CourseMaterial.create({
+        courseId,
+        title,
+        type,
+        url: url || "",
+        filePath: req.file ? req.file.path : "",
+        facultyId: req.user.id,
+      });
+
+      res.json({ message: "Material added successfully", material });
+    } catch (err) {
+      console.error("Add material error:", err);
+      res.status(500).json({ error: "Failed to add material" });
+    }
+  }
+);
+
+// 📂 FACULTY GET MATERIALS OF OWN COURSE
+app.get(
+  "/faculty/course/:courseId/materials",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const materials = await CourseMaterial.find({
+        courseId: req.params.courseId,
+        facultyId: req.user.id,
+      }).sort({ createdAt: -1 });
+
+      res.json(materials);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch materials" });
+    }
+  }
+);
+
 
 // ➕ UPLOAD PROFILE PICTURE
 app.post(
@@ -775,6 +823,18 @@ app.get("/my-courses", verifyToken, authorize(["student"]), async (req, res) => 
   res.json(courses);
 });
 
+app.get("/student/mycourses", verifyToken, authorize(["student"]), async (req, res) => {
+  try {
+    const enrollments = await Enrollment.find({ studentId: req.user.id })
+      .populate("courseId");
+
+    res.json(enrollments);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch my courses" });
+  }
+});
+
+
 // 📚 GET FACULTY COURSES
 app.get("/faculty-courses", verifyToken, authorize(["faculty"]), async (req, res) => {
   try {
@@ -835,7 +895,7 @@ app.get("/faculty/recent-courses", verifyToken, authorize(["faculty"]), async (r
   try {
     const courses = await Course.find({ facultyId: req.user.id })
       .sort({ createdAt: -1 })
-      .limit(3);
+      .limit(3).populate("facultyId", "name email");
 
     res.json(courses);
   } catch (err) {
@@ -1031,6 +1091,34 @@ app.get("/assignment-submissions/:assignmentId", verifyToken, authorize(["facult
     res.status(500).json({ error: "Failed to fetch submissions" });
   }
 });
+
+app.get(
+  "/student/course/:courseId/materials",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+
+      // Check enrollment
+      const enrolled = await Enrollment.findOne({
+        studentId: req.user.id,
+        courseId,
+      });
+
+      if (!enrolled) {
+        return res.status(403).json({ error: "Not enrolled in this course" });
+      }
+
+      const materials = await CourseMaterial.find({ courseId }).sort({ createdAt: -1 });
+
+      res.json(materials);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch materials" });
+    }
+  }
+);
+
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");
