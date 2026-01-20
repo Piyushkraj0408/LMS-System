@@ -7,6 +7,7 @@ export default function FacultyDash() {
   const [assignments, setAssignments] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [achievements, setAchievements] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchDashboard();
@@ -20,59 +21,107 @@ export default function FacultyDash() {
         axios.get("http://localhost:5000/faculty/notifications", { withCredentials: true }),
         axios.get("http://localhost:5000/faculty/achievements", { withCredentials: true }),
       ]);
-
+      console.log(c.data);
       setCourses(c.data);
       setAssignments(a.data);
       setNotifications(n.data);
       setAchievements(ach.data);
     } catch (err) {
       console.log("Dashboard error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="fac11-dash">
+        <div className="gyan11 loading-card">
+          <h1>Loading Dashboard...</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="fac-dash">
+    <div className="fac11-dash">
 
       {/* 👋 Header */}
-      <div className="gyan">
-        <h1>Welcome Faculty</h1>
+      <div className="gyan11">
+        <h1>Welcome {courses[0].facultyId.name}</h1>
         <p>Your teaching activity summary and quick access panel.</p>
       </div>
 
       {/* 🏆 Achievements */}
-      <div className="fac-card fac">
-        <h2>Achievements</h2>
-        <p>Courses: {achievements.totalCourses}</p>
-        <p>Students Taught: {achievements.totalStudents}</p>
-        <p>Assignments Posted: {achievements.totalAssignments}</p>
+      <div className="fac11-card fac">
+        <h2>🏆 Achievements</h2>
+        <p>📚 Courses: <strong>{achievements.totalCourses || 0}</strong></p>
+        <p>👥 Students Taught: <strong>{achievements.totalStudents || 0}</strong></p>
+        <p>📝 Assignments Posted: <strong>{achievements.totalAssignments || 0}</strong></p>
       </div>
 
       {/* 📘 Recent Courses */}
-      <div className="fac-course fac">
-        <h2>Recent Courses</h2>
-        {courses.map((c) => (
-          <p key={c._id}>📘 {c.title}</p>
-        ))}
+      <div className="fac11-course fac">
+        <h2>📘 Recent Courses</h2>
+        {courses.length === 0 ? (
+          <p style={{ 
+            textAlign: 'center', 
+            color: 'var(--gray-light)', 
+            fontStyle: 'italic',
+            border: 'none',
+            cursor: 'default'
+          }}>
+            No courses available yet
+          </p>
+        ) : (
+          courses.map((c) => (
+            <p key={c._id}>📘 {c.title}</p>
+          ))
+        )}
       </div>
 
       {/* 📝 Recent Assignments */}
-      <div className="fac-assignment fac">
-        <h2>Recent Assignments</h2>
-        {assignments.map((a) => (
-          <p key={a._id}>
-            📝 {a.title} <span>({a.courseId?.title})</span>
+      <div className="fac11-assignment fac">
+        <h2>📝 Recent Assignments</h2>
+        {assignments.length === 0 ? (
+          <p style={{ 
+            textAlign: 'center', 
+            color: 'var(--gray-light)', 
+            fontStyle: 'italic',
+            border: 'none',
+            cursor: 'default'
+          }}>
+            No assignments posted yet
           </p>
-        ))}
+        ) : (
+          assignments.map((a) => (
+            <p key={a._id}>
+              📝 {a.title} <span>({a.courseId?.title || 'N/A'})</span>
+            </p>
+          ))
+        )}
       </div>
 
       {/* 🔔 Notifications */}
-      <div className="fac-notification fac">
-        <h2>Notifications</h2>
-        {notifications.map((n) => (
-          <p key={n._id}>
-            🔔 {n.message} <span>({n.courseId?.title})</span>
+      <div className="fac11-notification fac">
+        <h2>🔔 Notifications</h2>
+        {notifications.length === 0 ? (
+          <p style={{ 
+            textAlign: 'center', 
+            color: 'var(--gray-light)', 
+            fontStyle: 'italic',
+            border: 'none',
+            cursor: 'default'
+          }}>
+            No new notifications
           </p>
-        ))}
+        ) : (
+          notifications.map((n) => (
+            <p key={n._id}>
+              🔔 {n.message} <span>({n.courseId?.title || 'N/A'})</span>
+            </p>
+          ))
+        )}
       </div>
 
     </div>

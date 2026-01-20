@@ -98,6 +98,7 @@ export default function Courses() {
                 style={{
                   transform: `translateX(${position * 110}%) scale(${position === 0 ? 1 : 0.85})`,
                   zIndex: position === 0 ? 10 : 1,
+                  marginLeft:"55vh"
                 }}
                 onClick={() => position !== 0 && setCurrentIndex(index)}
               >

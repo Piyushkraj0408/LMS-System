@@ -7,6 +7,7 @@ export default function Facultyattendance() {
   const [selectedCourse, setSelectedCourse] = useState("");
   const [students, setStudents] = useState([]);
   const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Load faculty courses
   useEffect(() => {
@@ -18,7 +19,11 @@ export default function Facultyattendance() {
 
   // Load enrolled students
   const loadStudents = async (courseId) => {
+    if (!courseId) return;
+    
     setSelectedCourse(courseId);
+    setLoading(true);
+    
     try {
       const res = await axios.get(
         `http://localhost:5000/course-students/${courseId}`,
@@ -35,6 +40,8 @@ export default function Facultyattendance() {
     } catch (err) {
       console.log(err);
       alert("Failed to load students");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,6 +52,13 @@ export default function Facultyattendance() {
   };
 
   const submitAttendance = async () => {
+    if (!selectedCourse) {
+      alert("Please select a course first");
+      return;
+    }
+
+    setLoading(true);
+    
     try {
       const res = await axios.post(
         "http://localhost:5000/mark-attendance",
@@ -55,15 +69,20 @@ export default function Facultyattendance() {
     } catch (err) {
       console.log(err);
       alert("Failed to mark attendance");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="faculty-attendance">
-      <h2>Mark Attendance</h2>
+    <div className={`faculty-attendance ${loading ? 'loading' : ''}`}>
+      <h2>📋 Mark Attendance</h2>
 
       {/* Select Course */}
-      <select onChange={(e) => loadStudents(e.target.value)}>
+      <select 
+        value={selectedCourse}
+        onChange={(e) => loadStudents(e.target.value)}
+      >
         <option value="">Select Course</option>
         {courses.map((c) => (
           <option key={c._id} value={c._id}>
@@ -75,26 +94,26 @@ export default function Facultyattendance() {
       {/* Student List */}
       {students.length > 0 && (
         <>
-          <table border="1" cellPadding="8">
+          <table>
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Student Name</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th>Attendance Status</th>
               </tr>
             </thead>
             <tbody>
               {students.map((s, i) => (
                 <tr key={s._id}>
-                  <td>{s.studentId.name}</td>
+                  <td style={{position:"absolute"}}>{s.studentId.name}</td>
                   <td>{s.studentId.email}</td>
                   <td>
                     <select
                       value={records[i]?.status}
                       onChange={(e) => updateStatus(i, e.target.value)}
                     >
-                      <option value="Present">Present</option>
-                      <option value="Absent">Absent</option>
+                      <option value="Present">✓ Present</option>
+                      <option value="Absent">✗ Absent</option>
                     </select>
                   </td>
                 </tr>
@@ -102,10 +121,14 @@ export default function Facultyattendance() {
             </tbody>
           </table>
 
-          <button onClick={submitAttendance} style={{ marginTop: "10px" }}>
+          <button onClick={submitAttendance}>
             Submit Attendance
           </button>
         </>
+      )}
+
+      {selectedCourse && students.length === 0 && !loading && (
+        <p>No students enrolled in this course yet.</p>
       )}
     </div>
   );

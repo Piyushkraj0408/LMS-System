@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./student.css";
 
 export default function FacultyCourse() {
@@ -9,6 +10,26 @@ export default function FacultyCourse() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
+
+  const [courses, setCourses] = useState([]); // 👈 for showing all courses
+
+  const navigate = useNavigate();
+
+  // 🔄 Fetch all faculty courses
+  const fetchCourses = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/faculty-courses", {
+        withCredentials: true,
+      });
+      setCourses(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,7 +48,7 @@ export default function FacultyCourse() {
       formData.append("code", code);
       formData.append("description", description);
       if (image) {
-        formData.append("image", image); // 👈 must match backend field name
+        formData.append("image", image);
       }
 
       const res = await axios.post(
@@ -42,11 +63,17 @@ export default function FacultyCourse() {
       );
 
       setMessage(res.data.message);
+
+      // reset form
       setTitle("");
       setCode("");
       setDescription("");
       setImage(null);
       setPreview("");
+
+      // 🔄 Refresh course list after creating new course
+      fetchCourses();
+
     } catch (err) {
       setMessage(err.response?.data?.error || "Error creating course");
     }
@@ -54,9 +81,11 @@ export default function FacultyCourse() {
 
   return (
     <div className="fac-course fac">
+
+      {/* ➕ CREATE COURSE */}
       <h2>Create New Course</h2>
 
-      <form onSubmit={handleSubmit} className="course-form">
+      <form onSubmit={handleSubmit} className="course11-form">
         <input
           type="text"
           placeholder="Course Title"
@@ -80,26 +109,40 @@ export default function FacultyCourse() {
           required
         ></textarea>
 
-        {/* 🖼 Image Upload */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
 
-        {/* 🔍 Preview */}
         {preview && (
-          <img
-            src={preview}
-            alt="Preview"
-            className="course-preview"
-          />
+          <img src={preview} alt="Preview" className="course-preview" />
         )}
 
         <button type="submit">Create Course</button>
       </form>
 
       {message && <p className="msg">{message}</p>}
+
+      {/* 📚 SHOW ALL CREATED COURSES */}
+      <h2 style={{ marginTop: "30px" }}>My Created Courses</h2>
+
+      {courses.length === 0 && <p>No courses created yet.</p>}
+
+      <div className="course-grid">
+        {courses.map((c) => (
+          <div
+            key={c._id}
+            className="courses-card"
+            onClick={() => navigate(`/faculty/course/${c._id}`)}
+          >
+            {c.image && (
+              <img
+                src={`http://localhost:5000${c.image}`}
+                alt={c.title}
+              />
+            )}
+            <h3>{c.title}</h3>
+            <p>{c.code}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

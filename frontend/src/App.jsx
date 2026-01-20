@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import RoleSelect from "./RoleSelect";
+import RoleSelect from "./roleselect";
 import StudentAuth from "./studentauth";
 import Student from "./student";
 import Dash from "./dashboard";
@@ -10,7 +10,9 @@ import StudentAttendance from "./studentAttendence";
 import Grade from "./grade";
 import StudentGrade from "./StudentGrade";
 import StudentQuiz from "./studentQuiz";
+import FacultyMyCourses from "./facultymycourse";
 import Exam from "./exam";
+import FacultyCoursePage from "./facultycoursepage";
 import Attendeance from "./attendance";
 import FacultyAuth from "./facultyAuth";
 import Faculty from "./faculty";
@@ -26,6 +28,7 @@ import Admin from "./admin";
 import ProtectedRoute from "./protectedRoute";
 import StudentProfile from "./profile";
 import Studentmycourses from "./studentmycourses";
+import StudentCoursePage from "./StudentCoursePage";
 
 export default function App() {
   return (
@@ -47,7 +50,11 @@ export default function App() {
       >
         <Route index element={<FacultyDash />} />
         <Route path="dashboard" element={<FacultyDash />} />
-        <Route path="courses" element={<FacultyCourse />} />
+        <Route path="courses" element={<FacultyCourse />} />{" "}
+        {/* create course */}
+        <Route path="my-courses" element={<FacultyMyCourses />} />{" "}
+        {/* show all courses */}
+        <Route path="course/:courseId" element={<FacultyCoursePage />} />
         <Route path="assignment" element={<FacultyAssignment />} />
         <Route path="quiz" element={<Facultyuquiz />} />
         <Route path="attendance" element={<Facultyattendence />} />
@@ -72,6 +79,8 @@ export default function App() {
         <Route path="courses" element={<Courses />} />
         <Route path="profile" element={<StudentProfile />} />
         <Route path="mycourses" element={<Studentmycourses />} />
+        <Route path="course/:courseId" element={<StudentCoursePage />} />
+
 
         {/* ✅ QUIZ ROUTES */}
         <Route path="quiz" element={<Quiz />} />

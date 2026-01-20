@@ -37,46 +37,57 @@ export default function FacultyStudent() {
   };
 
   return (
-    <div className="faculty-students">
-      <h2>My Courses</h2>
+    <div className={`faculty-students ${loading ? 'loading' : ''}`}>
+      <h2>📚 My Courses</h2>
 
       {/* 📘 Course List */}
-      <div className="course-list">
-        {courses.map((course) => (
-          <button
-            key={course._id}
-            onClick={() => loadStudents(course._id)}
-            className={selectedCourse === course._id ? "active-course" : ""}
-          >
-            {course.title}
-          </button>
-        ))}
-      </div>
+      {courses.length === 0 ? (
+        <p>No courses available.</p>
+      ) : (
+        <div className="course-list">
+          {courses.map((course) => (
+            <button
+              key={course._id}
+              onClick={() => loadStudents(course._id)}
+              className={selectedCourse === course._id ? "active-course" : ""}
+            >
+              {course.title}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* 👩‍🎓 Student List */}
-      <h3>Enrolled Students</h3>
+      {selectedCourse && (
+        <>
+          <h3>
+            👥 Enrolled Students
+            {students.length > 0 && ` (${students.length})`}
+          </h3>
 
-      {loading ? (
-        <p>Loading students...</p>
-      ) : students.length === 0 ? (
-        <p>No students enrolled yet.</p>
-      ) : (
-        <table className="student-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((s) => (
-              <tr key={s._id}>
-                <td>{s.studentId?.name}</td>
-                <td>{s.studentId?.email}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {loading ? (
+            <p>Loading students...</p>
+          ) : students.length === 0 ? (
+            <p>No students enrolled yet.</p>
+          ) : (
+            <table className="student-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Email Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((s) => (
+                  <tr key={s._id}>
+                    <td style={{position:"absolute"}}>{s.studentId?.name || "N/A"}</td>
+                    <td>{s.studentId?.email || "N/A"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </>
       )}
     </div>
   );

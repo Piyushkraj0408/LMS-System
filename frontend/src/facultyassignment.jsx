@@ -19,7 +19,7 @@ export default function FacultyAssignment() {
       .catch((err) => console.log(err));
   }, []);
 
-  // 🔄 LOAD FACULTY ASSIGNMENTS (🔥 THIS WAS MISSING)
+  // 🔄 Load faculty assignments
   useEffect(() => {
     axios
       .get("http://localhost:5000/faculty-assignments", { withCredentials: true })
@@ -41,7 +41,7 @@ export default function FacultyAssignment() {
 
       alert(res.data.message);
 
-      // 👇 ADD NEW ASSIGNMENT TO LIST
+      // Add new assignment to list
       setAssignments((prev) => [...prev, res.data.assignment]);
 
       setTitle("");
@@ -55,8 +55,8 @@ export default function FacultyAssignment() {
   };
 
   return (
-    <div className="fac-assignment fac">
-      <h2>Create Assignment</h2>
+    <div className="fac-assignment11 fac">
+      <h2>📝 Create Assignment</h2>
 
       <form onSubmit={handleCreateAssignment}>
         <input
@@ -99,18 +99,20 @@ export default function FacultyAssignment() {
 
       <hr />
 
-      <h2>My Assignments</h2>
+      <h2>📚 My Assignments</h2>
 
       {assignments.length === 0 ? (
         <p>No assignments created yet.</p>
       ) : (
         assignments.map((assignment) => (
-          <div key={assignment._id} style={{ marginBottom: "20px" }}>
+          <div key={assignment._id} className="assignment-card">
             <h3>{assignment.title}</h3>
             <p>{assignment.description}</p>
-            <p><b>Due:</b> {new Date(assignment.dueDate).toLocaleDateString()}</p>
+            <p>
+              <b>Due:</b> {new Date(assignment.dueDate).toLocaleDateString()}
+            </p>
 
-            {/* 👇 SHOW SUBMISSIONS */}
+            {/* Show Submissions */}
             <FacultySubmissions assignmentId={assignment._id} />
           </div>
         ))

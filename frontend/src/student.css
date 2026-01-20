@@ -3379,3 +3379,2961 @@ body {
   }
 }
 
+/* Container */
+.fac {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Header */
+.fac h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Empty state message */
+.fac > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-size: 1.125rem;
+  margin-top: 3rem;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 0.5rem;
+  border: 1px dashed var(--border-color);
+}
+
+/* Course Grid */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 15px;
+}
+
+/* Course Card */
+.courses-card {
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.courses-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border-color: var(--active-bg);
+}
+
+/* Course Image */
+.courses-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: var(--hover-bg);
+  transition: transform 0.3s ease;
+}
+
+.courses-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Course Title */
+.courses-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 1rem 1rem 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Course Code */
+.courses-card p {
+  font-size: 0.875rem;
+  color: var(--gray-light);
+  margin: 0 1rem 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fac {
+    padding: 1.5rem 1rem;
+  }
+
+  .fac h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .course-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .courses-card h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .courses-card img {
+    height: 200px;
+  }
+}
+
+/* Loading state (optional - add if needed) */
+.courses-card.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Focus states for accessibility */
+.courses-card:focus {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+.courses-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Course Page Container */
+.fac {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Main Header */
+.fac > h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2.5rem;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Section Headers */
+.fac h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fac h3:first-of-type {
+  margin-top: 1rem;
+}
+
+/* Material Item Container */
+.fac > div {
+  margin-bottom: 0.75rem;
+}
+
+.fac > div > a,
+.fac > div > span {
+  display: block;
+  padding: 1rem 1.25rem;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Smoke/Gradient Background Effect on Hover */
+.fac > div > a::before,
+.fac > div > span::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    transparent
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+[data-theme="light"] .fac > div > a::before,
+[data-theme="light"] .fac > div > span::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.02),
+    transparent
+  );
+}
+
+.fac > div > a:hover::before {
+  left: 100%;
+}
+
+/* Hover States */
+.fac > div > a:hover {
+  background: var(--hover-bg);
+  border-color: var(--active-bg);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .fac > div > a:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Assignment Items (non-clickable) */
+.fac > div > span {
+  cursor: default;
+  background: var(--card-color);
+  border-left: 3px solid var(--purple);
+}
+
+.fac > div > span:hover {
+  background: var(--hover-bg);
+  border-color: var(--purple);
+}
+
+/* External Link Indicator */
+.fac > div > a::after {
+  content: '→';
+  position: absolute;
+  right: 1.25rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: var(--active-bg);
+  font-weight: bold;
+}
+
+.fac > div > a:hover::after {
+  opacity: 1;
+  right: 1rem;
+}
+
+/* Focus States for Accessibility */
+.fac > div > a:focus {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+.fac > div > a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Empty State for Each Section */
+.fac h3 + :not(div) {
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fac {
+    padding: 1.5rem 1rem;
+  }
+
+  .fac > h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .fac h3 {
+    font-size: 1.125rem;
+    margin-top: 2rem;
+  }
+
+  .fac > div > a,
+  .fac > div > span {
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Loading Animation (Optional) */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--card-color) 0%,
+    var(--hover-bg) 50%,
+    var(--card-color) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  height: 3rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* this is faculty side */
+.gyan11{
+  background-color: var(--card-color);
+  height: 120px;
+  margin: 25px 95px 15px 95px;
+  border-radius: 15px;
+  border: 2px solid var(--border-color);
+}
+
+.gyan11 h1{
+  font-size: 35px;
+  text-align: center;
+  font-weight: 25px;
+  margin-top: 15px;
+}
+
+.gyan11 p{
+  text-align: center;
+}
+
+/* faculty course creation*/
+/* Course Form Container */
+.course11-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.course11-form:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .course11-form:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Title (if you want to add one) */
+.course11-form h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+/* Input Fields */
+.course11-form input[type="text"],
+.course11-form input[type="email"],
+.course11-form input[type="password"] {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.course11-form input[type="text"]:focus,
+.course11-form input[type="email"]:focus,
+.course11-form input[type="password"]:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+}
+
+.course11-form input[type="text"]::placeholder,
+.course11-form input[type="email"]::placeholder,
+.course11-form input[type="password"]::placeholder {
+  color: var(--gray-light);
+}
+
+/* Textarea */
+.course11-form textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  outline: none;
+  line-height: 1.5;
+}
+
+.course11-form textarea:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+}
+
+.course11-form textarea::placeholder {
+  color: var(--gray-light);
+}
+
+/* File Input */
+.course11-form input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 2px dashed var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.course11-form input[type="file"]::-webkit-file-upload-button {
+  padding: 0.5rem 1rem;
+  background: var(--active-bg);
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+}
+
+.course11-form input[type="file"]::-webkit-file-upload-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.course11-form input[type="file"]:hover {
+  border-color: var(--active-bg);
+  background: var(--hover-bg);
+}
+
+/* Firefox file input button */
+.course11-form input[type="file"]::file-selector-button {
+  padding: 0.5rem 1rem;
+  background: var(--active-bg);
+  border: none;
+  border-radius: 0.375rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+}
+
+.course11-form input[type="file"]::file-selector-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Image Preview */
+.course-preview {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.course-preview:hover {
+  border-color: var(--active-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Submit Button */
+.course11-form button[type="submit"] {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: var(--active-bg);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.course11-form button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.course11-form button[type="submit"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.course11-form button[type="submit"]:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.course11-form button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.course11-form button[type="submit"]:disabled {
+  background: var(--gray-dark);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Message */
+.msg {
+  max-width: 600px;
+  margin: 1rem auto;
+  padding: 1rem 1.25rem;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--active-bg);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  text-align: center;
+  animation: slideIn 0.3s ease;
+}
+
+.msg.success {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.msg.error {
+  border-left-color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading State */
+.course11-form.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.course11-form button[type="submit"].loading::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .course11-form {
+    margin: 1.5rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .course11-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .course11-form input[type="text"],
+  .course11-form input[type="email"],
+  .course11-form input[type="password"],
+  .course11-form textarea {
+    font-size: 0.9rem;
+  }
+
+  .course11-form button[type="submit"] {
+    font-size: 0.95rem;
+  }
+
+  .msg {
+    margin: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Focus visible for accessibility */
+.course11-form input:focus-visible,
+.course11-form textarea:focus-visible,
+.course11-form button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Invalid state */
+.course11-form input:invalid:not(:placeholder-shown),
+.course11-form textarea:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+}
+
+.course11-form input:valid:not(:placeholder-shown),
+.course11-form textarea:valid:not(:placeholder-shown) {
+  border-color: #10b981;
+}
+
+/* Faculty Assignment Container */
+.fac-assignment11 {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Section Headers */
+.fac-assignment11 h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.fac-assignment11 h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+/* Form Styling */
+.fac-assignment11 form {
+  background: var(--card-color);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.fac-assignment11 form:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .fac-assignment11 form:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Inputs */
+.fac-assignment11 form input[type="text"],
+.fac-assignment11 form input[type="date"],
+.fac-assignment11 form select,
+.fac-assignment11 form textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.fac-assignment11 form input:focus,
+.fac-assignment11 form select:focus,
+.fac-assignment11 form textarea:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+}
+
+.fac-assignment11 form input::placeholder,
+.fac-assignment11 form textarea::placeholder {
+  color: var(--gray-light);
+}
+
+/* Textarea */
+.fac-assignment11 form textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Select Dropdown */
+.fac-assignment11 form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a1a1aa' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.fac-assignment11 form select option {
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+/* Date Input */
+.fac-assignment11 form input[type="date"] {
+  cursor: pointer;
+}
+
+.fac-assignment11 form input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+  cursor: pointer;
+}
+
+[data-theme="light"] .fac-assignment11 form input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+}
+
+/* Submit Button */
+.fac-assignment11 form button[type="submit"] {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: var(--active-bg);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.fac-assignment11 form button[type="submit"]:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.fac-assignment11 form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Divider */
+.fac-assignment11 hr {
+  border: none;
+  height: 1px;
+  background: var(--border-color);
+  margin: 3rem 0;
+}
+
+/* Empty State */
+.fac-assignment11 > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 0.5rem;
+  border: 1px dashed var(--border-color);
+}
+
+/* Assignment Card */
+.fac-assignment11 > div {
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.fac-assignment11 > div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--purple);
+  transition: width 0.3s ease;
+}
+
+.fac-assignment11 > div:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.fac-assignment11 > div:hover::before {
+  width: 6px;
+}
+
+/* Assignment Title */
+.fac-assignment11 > div > h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+}
+
+/* Assignment Description */
+.fac-assignment11 > div > p {
+  color: var(--gray-light);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.fac-assignment11 > div > p b {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* Submissions Section */
+.fac-assignment11 > div > div {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.fac-assignment11 > div > div h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.fac-assignment11 > div > div > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 1rem;
+  background: var(--bg-color);
+  border-radius: 0.5rem;
+  margin: 0;
+}
+
+/* Table Styling */
+.fac-assignment11 table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.fac-assignment11 table thead {
+  background: var(--hover-bg);
+}
+
+.fac-assignment11 table th {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.fac-assignment11 table td {
+  padding: 0.875rem 1rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.fac-assignment11 table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.fac-assignment11 table tbody tr:hover {
+  background: var(--hover-bg);
+}
+
+.fac-assignment11 table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Download Link */
+.fac-assignment11 table a {
+  color: var(--active-bg);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.375rem 0.875rem;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 0.375rem;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.fac-assignment11 table a:hover {
+  background: var(--active-bg);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Loading State */
+.fac-assignment11 > div > div > p:first-child {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fac-assignment11 {
+    padding: 1.5rem 1rem;
+  }
+
+  .fac-assignment11 h2 {
+    font-size: 1.5rem;
+  }
+
+  .fac-assignment11 form {
+    padding: 1.25rem;
+  }
+
+  .fac-assignment11 > div {
+    padding: 1.25rem;
+  }
+
+  .fac-assignment11 > div > h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Make table scrollable on mobile */
+  .fac-assignment11 table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .fac-assignment11 table thead,
+  .fac-assignment11 table tbody,
+  .fac-assignment11 table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .fac-assignment11 table th,
+  .fac-assignment11 table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.fac-assignment11 form input:focus-visible,
+.fac-assignment11 form select:focus-visible,
+.fac-assignment11 form textarea:focus-visible,
+.fac-assignment11 form button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Validation States */
+.fac-assignment11 form input:invalid:not(:placeholder-shown),
+.fac-assignment11 form textarea:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+}
+
+.fac-assignment11 form input:valid:not(:placeholder-shown),
+.fac-assignment11 form textarea:valid:not(:placeholder-shown) {
+  border-color: #10b981;
+}
+
+/* Faculty Quiz Container */
+.faculty-quiz-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Main Headers */
+.faculty-quiz-container > h2,
+.faculty-quiz-container > h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.faculty-quiz-container > h2::after,
+.faculty-quiz-container > h3::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+.faculty-quiz-container > h3 {
+  font-size: 1.5rem;
+  margin-top: 3rem;
+}
+
+/* Quiz Form Section */
+.quiz-form-section {
+  background: var(--card-color);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Basic Inputs */
+.faculty-quiz-container input[type="text"],
+.faculty-quiz-container select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.faculty-quiz-container input:focus,
+.faculty-quiz-container select:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+}
+
+.faculty-quiz-container input::placeholder {
+  color: var(--gray-light);
+}
+
+/* Select Dropdown */
+.faculty-quiz-container select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a1a1aa' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.faculty-quiz-container select option {
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+/* Add Question Button */
+.faculty-quiz-container > button:first-of-type,
+.add-question-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.faculty-quiz-container > button:first-of-type:hover,
+.add-question-btn:hover {
+  background: #9333ea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+}
+
+/* Question Card */
+.question-card {
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--purple);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.question-card::before {
+  content: 'Q';
+  position: absolute;
+  top: -12px;
+  left: 1rem;
+  background: var(--purple);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.question-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Question Input */
+.question-card > input:first-child {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Options Grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.options-grid input {
+  margin-bottom: 0;
+}
+
+/* Correct Answer Select */
+.question-card > select {
+  background: var(--hover-bg);
+  border: 2px solid var(--purple);
+  font-weight: 600;
+  color: var(--purple);
+}
+
+/* Create Quiz Button */
+.create-quiz-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--active-bg);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.create-quiz-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.create-quiz-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.create-quiz-btn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Results Section */
+.results-section {
+  background: var(--card-color);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  margin-top: 2rem;
+}
+
+.results-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Show Result Button */
+.show-result-btn {
+  padding: 0.75rem 1.5rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.show-result-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Empty State */
+.results-section > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 2rem;
+  background: var(--bg-color);
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Results Table */
+.results-section table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  margin-top: 1rem;
+}
+
+.results-section table thead {
+  background: var(--hover-bg);
+}
+
+.results-section table th {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.results-section table td {
+  padding: 0.875rem 1rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.results-section table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.results-section table tbody tr:hover {
+  background: var(--hover-bg);
+}
+
+.results-section table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Score Column Styling */
+.results-section table td:last-child {
+  font-weight: 700;
+  color: var(--active-bg);
+  font-size: 1.05rem;
+}
+
+/* Divider */
+.quiz-divider {
+  border: none;
+  height: 1px;
+  background: var(--border-color);
+  margin: 2.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .faculty-quiz-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .faculty-quiz-container > h2 {
+    font-size: 1.5rem;
+  }
+
+  .faculty-quiz-container > h3 {
+    font-size: 1.25rem;
+  }
+
+  .quiz-form-section,
+  .results-section {
+    padding: 1.25rem;
+  }
+
+  .question-card {
+    padding: 1.25rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Make table scrollable on mobile */
+  .results-section table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .results-section table thead,
+  .results-section table tbody,
+  .results-section table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .results-section table th,
+  .results-section table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.faculty-quiz-container input:focus-visible,
+.faculty-quiz-container select:focus-visible,
+.faculty-quiz-container button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Success Message */
+.success-message {
+  padding: 1rem 1.25rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-left: 4px solid #10b981;
+  border-radius: 0.5rem;
+  color: #10b981;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Faculty Attendance Container */
+.faculty-attendance {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Header */
+.faculty-attendance h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.faculty-attendance h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+/* Course Select Dropdown */
+.faculty-attendance > select {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 2rem;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a1a1aa' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.faculty-attendance > select:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.faculty-attendance > select option {
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+/* Table Container */
+.faculty-attendance > table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Table Header */
+.faculty-attendance table thead {
+  background: var(--hover-bg);
+}
+
+.faculty-attendance table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Table Body */
+.faculty-attendance table td {
+  padding: 1rem 1.25rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.faculty-attendance table tbody tr {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.faculty-attendance table tbody tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.faculty-attendance table tbody tr:hover {
+  background: var(--hover-bg);
+}
+
+.faculty-attendance table tbody tr:hover::before {
+  background: var(--active-bg);
+}
+
+.faculty-attendance table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Select in Table */
+.faculty-attendance table td select {
+  padding: 0.5rem 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%23a1a1aa' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+  min-width: 120px;
+}
+
+.faculty-attendance table td select:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Present Option Styling */
+.faculty-attendance table td select option[value="Present"] {
+  background: var(--card-color);
+  color: #10b981;
+}
+
+/* Absent Option Styling */
+.faculty-attendance table td select option[value="Absent"] {
+  background: var(--card-color);
+  color: var(--error);
+}
+
+/* Dynamic color for selected value */
+.faculty-attendance table td select[value="Present"] {
+  border-color: #10b981;
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.faculty-attendance table td select[value="Absent"] {
+  border-color: var(--error);
+  color: var(--error);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Submit Button */
+.faculty-attendance > button {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.875rem 1.5rem;
+  background: var(--active-bg);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+}
+
+.faculty-attendance > button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.faculty-attendance > button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.faculty-attendance > button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.faculty-attendance > button:active {
+  transform: translateY(0);
+}
+
+/* Empty State (when no course selected) */
+.faculty-attendance > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 3rem 2rem;
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  border: 1px dashed var(--border-color);
+  margin-top: 2rem;
+}
+
+/* Loading State */
+.faculty-attendance.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .faculty-attendance {
+    padding: 1.5rem 1rem;
+  }
+
+  .faculty-attendance h2 {
+    font-size: 1.5rem;
+  }
+
+  .faculty-attendance > select {
+    max-width: 100%;
+  }
+
+  /* Make table scrollable on mobile */
+  .faculty-attendance > table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .faculty-attendance table thead,
+  .faculty-attendance table tbody,
+  .faculty-attendance table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .faculty-attendance table th,
+  .faculty-attendance table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .faculty-attendance table td select {
+    font-size: 0.85rem;
+    min-width: 100px;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .faculty-attendance > button {
+    max-width: 100%;
+  }
+}
+
+/* Focus States for Accessibility */
+.faculty-attendance select:focus-visible,
+.faculty-attendance button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Animation for table rows appearing */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faculty-attendance table tbody tr {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.faculty-attendance table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.faculty-attendance table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.faculty-attendance table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.faculty-attendance table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.faculty-attendance table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+
+/* Success/Error Messages */
+.attendance-message {
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+  animation: slideIn 0.3s ease;
+}
+
+.attendance-message.success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  color: #10b981;
+}
+
+.attendance-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Faculty Grade Container */
+.faculty-grade {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Header */
+.faculty-grade h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.faculty-grade h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+/* Course Select Dropdown */
+.faculty-grade > select {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 2rem;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a1a1aa' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.faculty-grade > select:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.faculty-grade > select option {
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+/* Table Container */
+.faculty-grade > table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .faculty-grade > table {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Header */
+.faculty-grade table thead {
+  background: linear-gradient(135deg, var(--hover-bg) 0%, var(--card-color) 100%);
+}
+
+.faculty-grade table th {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* First two headers (name and email) should be left-aligned */
+.faculty-grade table th:nth-child(1),
+.faculty-grade table th:nth-child(2) {
+  text-align: left;
+}
+
+/* Table Body */
+.faculty-grade table td {
+  padding: 1rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* First two columns (name and email) should be left-aligned */
+.faculty-grade table td:nth-child(1),
+.faculty-grade table td:nth-child(2) {
+  text-align: left;
+}
+
+.faculty-grade table tbody tr {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.faculty-grade table tbody tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.faculty-grade table tbody tr:hover {
+  background: var(--hover-bg);
+  transform: scale(1.01);
+}
+
+.faculty-grade table tbody tr:hover::before {
+  background: var(--active-bg);
+  width: 6px;
+}
+
+.faculty-grade table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Input Fields in Table */
+.faculty-grade table td input[type="number"] {
+  width: 100px;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.faculty-grade table td input[type="number"]:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+  transform: scale(1.05);
+}
+
+.faculty-grade table td input[type="number"]:hover {
+  border-color: var(--purple);
+}
+
+/* Remove spinner from number input */
+.faculty-grade table td input[type="number"]::-webkit-inner-spin-button,
+.faculty-grade table td input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.faculty-grade table td input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* File Input in Table */
+.faculty-grade table td input[type="file"] {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  cursor: pointer;
+  background: var(--bg-color);
+  border: 1px dashed var(--border-color);
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  max-width: 100%;
+}
+
+.faculty-grade table td input[type="file"]:hover {
+  border-color: var(--active-bg);
+  background: var(--hover-bg);
+}
+
+.faculty-grade table td input[type="file"]::file-selector-button {
+  padding: 0.4rem 0.875rem;
+  background: var(--purple);
+  border: none;
+  border-radius: 0.25rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 0.75rem;
+}
+
+.faculty-grade table td input[type="file"]::file-selector-button:hover {
+  background: #9333ea;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+}
+
+.faculty-grade table td input[type="file"]::-webkit-file-upload-button {
+  padding: 0.4rem 0.875rem;
+  background: var(--purple);
+  border: none;
+  border-radius: 0.25rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 0.75rem;
+}
+
+.faculty-grade table td input[type="file"]::-webkit-file-upload-button:hover {
+  background: #9333ea;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+}
+
+/* Submit Button in Table */
+.faculty-grade table td button {
+  padding: 0.625rem 1.5rem;
+  background: var(--active-bg);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.faculty-grade table td button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.faculty-grade table td button:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+.faculty-grade table td button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.faculty-grade table td button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+/* Empty State */
+.faculty-grade > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 3rem 2rem;
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  border: 1px dashed var(--border-color);
+  margin-top: 2rem;
+}
+
+/* Loading State */
+.faculty-grade.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Animation for table rows */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faculty-grade table tbody tr {
+  animation: fadeInUp 0.3s ease forwards;
+  opacity: 0;
+}
+
+.faculty-grade table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.faculty-grade table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.faculty-grade table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.faculty-grade table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.faculty-grade table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.faculty-grade table tbody tr:nth-child(6) { animation-delay: 0.3s; }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .faculty-grade {
+    padding: 1.5rem 1rem;
+  }
+
+  .faculty-grade > select {
+    max-width: 100%;
+  }
+
+  /* Make table scrollable horizontally */
+  .faculty-grade > table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .faculty-grade table thead,
+  .faculty-grade table tbody,
+  .faculty-grade table tr {
+    display: table;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-grade h2 {
+    font-size: 1.5rem;
+  }
+
+  .faculty-grade table th,
+  .faculty-grade table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .faculty-grade table td input[type="number"] {
+    max-width: 100px;
+    padding: 0.5rem;
+  }
+
+  .faculty-grade table td input[type="file"] {
+    font-size: 0.75rem;
+    max-width: 150px;
+  }
+
+  .faculty-grade table td button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.faculty-grade select:focus-visible,
+.faculty-grade input:focus-visible,
+.faculty-grade button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Tooltip for file input (optional) */
+.faculty-grade table td input[type="file"]:hover::after {
+  content: 'Upload graded paper';
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Success indicator for submitted grades */
+.faculty-grade table tbody tr.submitted {
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.faculty-grade table tbody tr.submitted::before {
+  background: #10b981;
+  width: 4px;
+}
+
+.faculty-grade table tbody tr.submitted button {
+  background: #10b981;
+  pointer-events: none;
+}
+
+.faculty-grade table tbody tr.submitted button::after {
+  content: '✓';
+  margin-left: 0.5rem;
+}
+
+/* Faculty Students Container */
+.faculty-students {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Main Header */
+.faculty-students h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.faculty-students h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+/* Section Header */
+.faculty-students h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 2.5rem 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Course List */
+.course-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.course-list button {
+  padding: 0.875rem 1.5rem;
+  background: var(--card-color);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect with slide animation */
+.course-list button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.course-list button:hover::before {
+  left: 100%;
+}
+
+.course-list button:hover {
+  border-color: var(--active-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+/* Active Course Button */
+.course-list button.active-course {
+  background: var(--active-bg);
+  color: white;
+  border-color: var(--active-bg);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.course-list button.active-course::after {
+  content: '✓';
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+
+.course-list button.active-course:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* Loading and Empty State */
+.faculty-students > p {
+  text-align: center;
+  color: var(--gray-light);
+  font-style: italic;
+  padding: 2rem;
+  background: var(--card-color);
+  border-radius: 0.5rem;
+  border: 1px dashed var(--border-color);
+  margin-top: 1rem;
+}
+
+/* Student Table */
+.student-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+[data-theme="light"] .student-table {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Header */
+.student-table thead {
+  background: linear-gradient(135deg, var(--hover-bg) 0%, var(--card-color) 100%);
+}
+
+.student-table th {
+  padding: 1.125rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Table Body */
+.student-table td {
+  padding: 1.125rem 1.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.student-table tbody tr {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.student-table tbody tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.student-table tbody tr:hover {
+  background: var(--hover-bg);
+  transform: translateX(4px);
+}
+
+.student-table tbody tr:hover::before {
+  background: var(--active-bg);
+}
+
+.student-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Email Column Styling */
+.student-table td:nth-child(2) {
+  color: var(--gray-light);
+  font-size: 0.9rem;
+}
+
+/* Animation for table rows */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.student-table tbody tr {
+  animation: fadeInUp 0.3s ease forwards;
+  opacity: 0;
+}
+
+.student-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.student-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.student-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.student-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.student-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.student-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
+.student-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+.student-table tbody tr:nth-child(8) { animation-delay: 0.4s; }
+
+/* Loading State */
+.faculty-students.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.faculty-students > p:first-of-type {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .faculty-students {
+    padding: 1.5rem 1rem;
+  }
+
+  .faculty-students h2 {
+    font-size: 1.5rem;
+  }
+
+  .faculty-students h3 {
+    font-size: 1.25rem;
+    margin: 2rem 0 1rem;
+  }
+
+  .course-list {
+    gap: 0.75rem;
+  }
+
+  .course-list button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  /* Make table scrollable on mobile */
+  .student-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .student-table thead,
+  .student-table tbody,
+  .student-table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .student-table th,
+  .student-table td {
+    padding: 0.875rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.course-list button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Count Badge (optional enhancement) */
+.course-list button::after {
+  content: '';
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+/* Add subtle gradient to active course */
+.course-list button.active-course {
+  background: linear-gradient(135deg, var(--active-bg) 0%, #2563eb 100%);
+}
+
+/* Student count in table */
+.faculty-students h3::after {
+  content: attr(data-count);
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray-light);
+  font-weight: 400;
+}
+
+/* Empty state styling enhancement */
+.faculty-students > p {
+  position: relative;
+}
+
+.faculty-students > p::before {
+  content: '📚';
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/*admin*/
+/* Admin Dashboard Container */
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* Main Header */
+.admin-dashboard h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 2.5rem;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid var(--border-color);
+  position: relative;
+}
+
+.admin-dashboard h1::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--active-bg));
+}
+
+/* Forms Container */
+.admin-dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* Form Grid Layout */
+.admin-forms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Individual Form */
+.admin-dashboard form {
+  background: var(--card-color);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .admin-dashboard form {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-dashboard form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.admin-dashboard form:hover::before {
+  left: 100%;
+}
+
+.admin-dashboard form:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  border-color: var(--active-bg);
+}
+
+[data-theme="light"] .admin-dashboard form:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Headers */
+.admin-dashboard form h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+/* Distinguish Student form with purple */
+.admin-dashboard form:first-of-type h3 {
+  color: var(--purple);
+}
+
+.admin-dashboard form:first-of-type h3::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--purple);
+}
+
+/* Distinguish Faculty form with blue */
+.admin-dashboard form:last-of-type h3 {
+  color: var(--active-bg);
+}
+
+.admin-dashboard form:last-of-type h3::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--active-bg);
+}
+
+/* Form Inputs */
+.admin-dashboard form input[type="text"],
+.admin-dashboard form input[type="email"],
+.admin-dashboard form input[type="password"] {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-dashboard form input:focus {
+  border-color: var(--active-bg);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--card-color);
+  transform: translateY(-1px);
+}
+
+.admin-dashboard form input::placeholder {
+  color: var(--gray-light);
+}
+
+/* Student form inputs - purple accent on focus */
+.admin-dashboard form:first-of-type input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+/* Submit Buttons */
+.admin-dashboard form button[type="submit"] {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple effect */
+.admin-dashboard form button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.admin-dashboard form button[type="submit"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Student form button - purple */
+.admin-dashboard form:first-of-type button[type="submit"] {
+  background: var(--purple);
+}
+
+.admin-dashboard form:first-of-type button[type="submit"]:hover {
+  background: #9333ea;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+}
+
+/* Faculty form button - blue */
+.admin-dashboard form:last-of-type button[type="submit"] {
+  background: var(--active-bg);
+}
+
+.admin-dashboard form:last-of-type button[type="submit"]:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.admin-dashboard form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Form Icons (optional decorative element) */
+.admin-dashboard form:first-of-type::after {
+  content: '👨‍🎓';
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  opacity: 0.2;
+}
+
+.admin-dashboard form:last-of-type::after {
+  content: '👨‍🏫';
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  opacity: 0.2;
+}
+
+/* Loading State */
+.admin-dashboard.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Success Message */
+.admin-success {
+  padding: 1rem 1.25rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-left: 4px solid #10b981;
+  border-radius: 0.5rem;
+  color: #10b981;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: slideIn 0.3s ease;
+}
+
+/* Error Message */
+.admin-error {
+  padding: 1rem 1.25rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  border-left: 4px solid var(--error);
+  border-radius: 0.5rem;
+  color: var(--error);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .admin-forms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-dashboard h1 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .admin-dashboard form {
+    padding: 1.5rem;
+  }
+
+  .admin-dashboard form h3 {
+    font-size: 1.25rem;
+  }
+
+  .admin-dashboard form::after {
+    font-size: 1.5rem;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .admin-forms-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Focus States for Accessibility */
+.admin-dashboard form input:focus-visible,
+.admin-dashboard form button:focus-visible {
+  outline: 2px solid var(--active-bg);
+  outline-offset: 2px;
+}
+
+/* Validation States */
+.admin-dashboard form input:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+}
+
+.admin-dashboard form input:valid:not(:placeholder-shown) {
+  border-color: #10b981;
+}
+
+/* Password strength indicator (optional) */
+.admin-dashboard form input[type="password"]:focus:valid {
+  border-color: #10b981;
+}
+
+/* Add subtle gradient background to forms */
+.admin-dashboard form:first-of-type {
+  background: linear-gradient(135deg, var(--card-color) 0%, rgba(168, 85, 247, 0.02) 100%);
+}
+
+.admin-dashboard form:last-of-type {
+  background: linear-gradient(135deg, var(--card-color) 0%, rgba(59, 130, 246, 0.02) 100%);
+}
+
+/* Hover state for inputs */
+.admin-dashboard form input:hover {
+  border-color: var(--gray-light);
+}

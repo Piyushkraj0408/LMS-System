@@ -38,7 +38,7 @@ export default function Attendeance() {
       {courses.length === 0 ? (
         <p>You are not enrolled in any course.</p>
       ) : (
-        <div className="course-grid">
+        <div className="course-grid" style={{marginTop:"-160px"}}>
           {courses.map((c) => (
             <div
               key={c.courseId._id}

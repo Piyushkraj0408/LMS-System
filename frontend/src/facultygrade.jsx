@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./student.css";
 
 export default function Facultygrade() {
   const [courses, setCourses] = useState([]);
@@ -7,27 +8,45 @@ export default function Facultygrade() {
   const [students, setStudents] = useState([]);
   const [marks, setMarks] = useState({});
   const [files, setFiles] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [submittedStudents, setSubmittedStudents] = useState(new Set());
 
   useEffect(() => {
-    axios.get("http://localhost:5000/faculty-courses", { withCredentials: true })
-      .then(res => setCourses(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:5000/faculty-courses", { withCredentials: true })
+      .then((res) => setCourses(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const loadStudents = async (courseId) => {
+    if (!courseId) return;
+    
     setSelectedCourse(courseId);
+    setLoading(true);
+    
     try {
-      const res = await axios.get(`http://localhost:5000/course-students/${courseId}`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `http://localhost:5000/course-students/${courseId}`,
+        { withCredentials: true }
+      );
       setStudents(res.data);
+      setMarks({});
+      setFiles({});
+      setSubmittedStudents(new Set());
     } catch (err) {
       console.log(err);
       alert("Failed to load students");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmitGrade = async (studentId) => {
+    if (!marks[studentId]) {
+      alert("Please enter marks for this student");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("courseId", selectedCourse);
     formData.append("studentId", studentId);
@@ -37,73 +56,100 @@ export default function Facultygrade() {
       formData.append("paper", files[studentId]);
     }
 
+    setLoading(true);
+
     try {
       const res = await axios.post(
         "http://localhost:5000/submit-grade",
         formData,
         { withCredentials: true }
       );
-      alert("Grade submitted!");
+      alert("Grade submitted successfully!");
+      
+      // Mark student as submitted
+      setSubmittedStudents(prev => new Set([...prev, studentId]));
     } catch (err) {
       console.log(err);
       alert("Failed to submit grade");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Grade Students</h2>
+    <div className={`faculty-grade ${loading ? 'loading' : ''}`}>
+      <h2>📊 Grade Students</h2>
 
-      <select onChange={(e) => loadStudents(e.target.value)}>
+      <select
+        value={selectedCourse}
+        onChange={(e) => loadStudents(e.target.value)}
+      >
         <option value="">Select Course</option>
         {courses.map((c) => (
-          <option key={c._id} value={c._id}>{c.title}</option>
+          <option key={c._id} value={c._id}>
+            {c.title}
+          </option>
         ))}
       </select>
 
       {students.length > 0 && (
-        <table border="1" cellPadding="8">
+        <table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Student Name</th>
               <th>Email</th>
               <th>Marks</th>
-              <th>Paper Upload</th>
-              <th>Submit</th>
+              <th>Graded Paper</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {students.map((s) => (
-              <tr key={s.studentId._id}>
-                <td>{s.studentId.name}</td>
+              <tr
+                key={s.studentId._id}
+                className={submittedStudents.has(s.studentId._id) ? 'submitted' : ''}
+              >
+                <td style={{position:"absolute",top:"10px",left:"15px"}}>{s.studentId.name}</td>
                 <td>{s.studentId.email}</td>
                 <td>
                   <input
                     type="number"
-                    placeholder="Enter marks"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
                     value={marks[s.studentId._id] || ""}
                     onChange={(e) =>
                       setMarks({ ...marks, [s.studentId._id]: e.target.value })
                     }
+                    disabled={submittedStudents.has(s.studentId._id)}
                   />
                 </td>
                 <td>
                   <input
                     type="file"
+                    accept=".pdf,.doc,.docx"
                     onChange={(e) =>
                       setFiles({ ...files, [s.studentId._id]: e.target.files[0] })
                     }
+                    disabled={submittedStudents.has(s.studentId._id)}
                   />
                 </td>
                 <td>
-                  <button onClick={() => handleSubmitGrade(s.studentId._id)}>
-                    Submit
+                  <button
+                    onClick={() => handleSubmitGrade(s.studentId._id)}
+                    disabled={submittedStudents.has(s.studentId._id)}
+                  >
+                    {submittedStudents.has(s.studentId._id) ? 'Submitted' : 'Submit'}
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+
+      {selectedCourse && students.length === 0 && !loading && (
+        <p>No students enrolled in this course yet.</p>
       )}
     </div>
   );

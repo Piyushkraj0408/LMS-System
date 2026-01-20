@@ -35,12 +35,12 @@ export default function RoleSelect() {
   </div>
 
   <div ref={r1} className="side student">
-    <h1 style={{fontSize:"20vh"}}>Student</h1>
+    <h1 style={{fontSize:"20vh",fontWeight:"600"}}>Student</h1>
     <p>Login to your dashboard</p>
   </div>
 
   <div ref={r2} className="side faculty">
-    <h1 style={{fontSize:"20vh"}}>Faculty</h1>
+    <h1 style={{fontSize:"20vh",fontWeight:"600"}}>Faculty</h1>
     <p>Manage classes & students</p>
   </div>
 

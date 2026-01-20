@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./student.css"
 
 export default function FacultySubmissions({ assignmentId }) {
   const [submissions, setSubmissions] = useState([]);
@@ -30,13 +31,13 @@ export default function FacultySubmissions({ assignmentId }) {
   if (loading) return <p>Loading submissions...</p>;
 
   return (
-    <div>
-      <h3>Student Submissions</h3>
+    <div className="submissions-section">
+      <h3>👥 Student Submissions</h3>
 
       {submissions.length === 0 ? (
         <p>No submissions yet.</p>
       ) : (
-        <table border="1" cellPadding="8">
+        <table>
           <thead>
             <tr>
               <th>Student Name</th>
@@ -48,15 +49,15 @@ export default function FacultySubmissions({ assignmentId }) {
           <tbody>
             {submissions.map((s) => (
               <tr key={s._id}>
-                <td>{s.studentId?.name}</td>
-                <td>{s.studentId?.email}</td>
+                <td>{s.studentId?.name || "N/A"}</td>
+                <td>{s.studentId?.email || "N/A"}</td>
                 <td>
                   <a
                     href={`http://localhost:5000/${s.filePath}`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Download
+                    📥 Download
                   </a>
                 </td>
                 <td>{new Date(s.submittedAt).toLocaleString()}</td>
@@ -65,7 +66,6 @@ export default function FacultySubmissions({ assignmentId }) {
           </tbody>
         </table>
       )}
-      
     </div>
   );
 }

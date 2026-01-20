@@ -167,8 +167,8 @@ export default function Facultyauth() {
             {isForgot
               ? "Reset Password"
               : isLogin
-              ? "Student Login"
-              : "Student Signup"}
+              ? "Faculty Login"
+              : "Faculty Signup"}
           </h2>
 
           {/* 🔐 LOGIN FORM */}
@@ -212,11 +212,7 @@ export default function Facultyauth() {
               />
               <button type="submit" disabled={sendingOTP}>
                 {sendingOTP ? (
-                  <DotLottieReact
-                    src="https://lottie.host/57284e22-8424-45f9-80a7-13b99c0984d7/zU8HgZj5Bw.lottie"
-                    loop
-                    autoplay
-                  />
+                  "Sending Sir..."
                 ) : (
                   "Send OTP"
                 )}
@@ -263,7 +259,8 @@ export default function Facultyauth() {
         </div>
 
         <img
-          src=".\ChatGPT Image Jan 12, 2026, 04_24_37 AM.png"
+          style={{position:"absolute",left:"442px",bottom:"0.1vh"}}
+          src=".\ChatGPT Image Jan 12, 2026, 04_58_36 AM.png"
           alt="studentPic"
         />
       </div>

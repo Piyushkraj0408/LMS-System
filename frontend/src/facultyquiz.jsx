@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./student.css";
 
 export default function Facultyuquiz() {
   const [courses, setCourses] = useState([]);
@@ -8,7 +9,7 @@ export default function Facultyuquiz() {
   const [questions, setQuestions] = useState([]);
   const [quizResults, setQuizResults] = useState(null);
   const [selectedQuizId, setSelectedQuizId] = useState("");
-  const [quizzes, setQuizzes] = useState([]); // 👈 STORE FACULTY QUIZZES
+  const [quizzes, setQuizzes] = useState([]);
 
   // 🔄 Fetch faculty courses
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Facultyuquiz() {
     ]);
   };
 
-  // 📊 SHOW QUIZ RESULT
+  // 📊 Show Quiz Result
   const handleShowResult = async () => {
     if (!selectedQuizId) {
       alert("Please select a quiz first");
@@ -55,7 +56,7 @@ export default function Facultyuquiz() {
     }
   };
 
-  // 📝 CREATE QUIZ
+  // 📝 Create Quiz
   const handleCreateQuiz = async () => {
     if (!title || !courseId || questions.length === 0) {
       alert("Please fill all fields and add at least one question");
@@ -73,7 +74,7 @@ export default function Facultyuquiz() {
       setTitle("");
       setQuestions([]);
 
-      // 👇 SAVE QUIZ ID AND ADD TO QUIZ LIST
+      // Save quiz ID and add to quiz list
       setSelectedQuizId(res.data.quiz._id);
       setQuizzes((prev) => [...prev, res.data.quiz]);
     } catch (err) {
@@ -83,115 +84,128 @@ export default function Facultyuquiz() {
   };
 
   return (
-    <div>
-      <h2>Create Quiz</h2>
+    <div className="faculty-quiz-container">
+      <h2>📝 Create Quiz</h2>
 
-      <input
-        placeholder="Quiz Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className="quiz-form-section">
+        <input
+          type="text"
+          placeholder="Quiz Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
-        <option value="">Select Course</option>
-        {courses.map((c) => (
-          <option key={c._id} value={c._id}>
-            {c.title}
-          </option>
-        ))}
-      </select>
+        <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
+          <option value="">Select Course</option>
+          {courses.map((c) => (
+            <option key={c._id} value={c._id}>
+              {c.title}
+            </option>
+          ))}
+        </select>
 
-      <button onClick={addQuestion}>Add Question</button>
+        <button className="add-question-btn" onClick={addQuestion}>
+          ➕ Add Question
+        </button>
 
-      {questions.map((q, i) => (
-        <div key={i}>
-          <input
-            placeholder="Question"
-            value={q.question}
-            onChange={(e) => {
-              const newQ = [...questions];
-              newQ[i].question = e.target.value;
-              setQuestions(newQ);
-            }}
-          />
-
-          {q.options.map((opt, idx) => (
+        {questions.map((q, i) => (
+          <div key={i} className="question-card">
             <input
-              key={idx}
-              placeholder={`Option ${idx + 1}`}
-              value={opt}
+              type="text"
+              placeholder={`Question ${i + 1}`}
+              value={q.question}
               onChange={(e) => {
                 const newQ = [...questions];
-                newQ[i].options[idx] = e.target.value;
+                newQ[i].question = e.target.value;
                 setQuestions(newQ);
               }}
             />
-          ))}
 
-          <select
-            value={q.correctAnswer}
-            onChange={(e) => {
-              const newQ = [...questions];
-              newQ[i].correctAnswer = Number(e.target.value);
-              setQuestions(newQ);
-            }}
-          >
-            <option value="0">Correct: 1</option>
-            <option value="1">Correct: 2</option>
-            <option value="2">Correct: 3</option>
-            <option value="3">Correct: 4</option>
-          </select>
-        </div>
-      ))}
+            <div className="options-grid">
+              {q.options.map((opt, idx) => (
+                <input
+                  key={idx}
+                  type="text"
+                  placeholder={`Option ${idx + 1}`}
+                  value={opt}
+                  onChange={(e) => {
+                    const newQ = [...questions];
+                    newQ[i].options[idx] = e.target.value;
+                    setQuestions(newQ);
+                  }}
+                />
+              ))}
+            </div>
 
-      <button onClick={handleCreateQuiz}>Create Quiz</button>
-
-      {/* 🔽 SELECT QUIZ FOR RESULTS */}
-      <h3 style={{ marginTop: "30px" }}>View Quiz Results</h3>
-
-      <select
-        value={selectedQuizId}
-        onChange={(e) => setSelectedQuizId(e.target.value)}
-      >
-        <option value="">Select Quiz</option>
-        {quizzes.map((q) => (
-          <option key={q._id} value={q._id}>
-            {q.title}
-          </option>
+            <select
+              value={q.correctAnswer}
+              onChange={(e) => {
+                const newQ = [...questions];
+                newQ[i].correctAnswer = Number(e.target.value);
+                setQuestions(newQ);
+              }}
+            >
+              <option value="0">✓ Correct Answer: Option 1</option>
+              <option value="1">✓ Correct Answer: Option 2</option>
+              <option value="2">✓ Correct Answer: Option 3</option>
+              <option value="3">✓ Correct Answer: Option 4</option>
+            </select>
+          </div>
         ))}
-      </select>
 
-      <button onClick={handleShowResult}>Show Result</button>
+        <button className="create-quiz-btn" onClick={handleCreateQuiz}>
+          Create Quiz
+        </button>
+      </div>
 
-      {/* 📊 DISPLAY RESULTS */}
-      {quizResults && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Quiz Results</h3>
+      <hr className="quiz-divider" />
 
-          {quizResults.length === 0 ? (
-            <p>No submissions yet.</p>
-          ) : (
-            <table border="1" cellPadding="8">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Email</th>
-                  <th>Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {quizResults.map((r) => (
-                  <tr key={r._id}>
-                    <td>{r.studentId?.name}</td>
-                    <td>{r.studentId?.email}</td>
-                    <td>{r.score}</td>
+      <h3>📊 View Quiz Results</h3>
+
+      <div className="results-section">
+        <select
+          value={selectedQuizId}
+          onChange={(e) => setSelectedQuizId(e.target.value)}
+        >
+          <option value="">Select Quiz</option>
+          {quizzes.map((q) => (
+            <option key={q._id} value={q._id}>
+              {q.title}
+            </option>
+          ))}
+        </select>
+
+        <button className="show-result-btn" onClick={handleShowResult}>
+          Show Results
+        </button>
+
+        {quizResults && (
+          <div>
+            {quizResults.length === 0 ? (
+              <p>No submissions yet.</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Score</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      )}
+                </thead>
+                <tbody>
+                  {quizResults.map((r) => (
+                    <tr key={r._id}>
+                      <td>{r.studentId?.name || "N/A"}</td>
+                      <td>{r.studentId?.email || "N/A"}</td>
+                      <td>{r.score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
