@@ -41,11 +41,16 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://lms-system-lake.vercel.app/"
+      "https://lms-system-lake.vercel.app"
     ],
-    credentials: true, // 👈 allow cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// 🔴 CRITICAL: handle preflight requests
+app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
