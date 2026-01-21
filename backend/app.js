@@ -27,33 +27,28 @@ const e = require("express");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "piyushobroy87@gmail.com",   // your real Gmail
-    pass: "wwpwlmwwrwqkuxia",      // 👈 paste app password here (no spaces)
+    user: "piyushobroy87@gmail.com", // your real Gmail
+    pass: "wwpwlmwwrwqkuxia", // 👈 paste app password here (no spaces)
   },
 });
-
-
 
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://lms-system-lake.vercel.app"
-    ],
+    origin: ["http://localhost:5173", "https://lms-system-lake.vercel.app"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");   // make sure this folder exists
+    cb(null, "uploads/"); // make sure this folder exists
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
@@ -61,36 +56,37 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected successfully"))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 // LeetCode API
 async function fetchLeetCode(username) {
-  const res = await axios.get(`https://alfa-leetcode-api.onrender.com/${username}/profile`);
+  const res = await axios.get(
+    `https://alfa-leetcode-api.onrender.com/${username}/profile`,
+  );
   const data = res.data;
-  console.log(data)
+  console.log(data);
 
   return {
     solved: data.totalSolved || 0,
     rank: data.ranking ? data.ranking.toString() : "unranked",
     easysolved: data.easySolved || 0,
     mediumsolved: data.mediumSolved || 0,
-    hardsolved: data.hardSolved || 0
+    hardsolved: data.hardSolved || 0,
   };
 }
-
-
 
 // codeforces API
 async function fetchCodeforces(username) {
   const res = await axios.get(
-    `https://codeforces.com/api/user.info?handles=${username}`
+    `https://codeforces.com/api/user.info?handles=${username}`,
   );
   const user = res.data.result[0];
 
   return {
     rating: user.rating || 0,
-    rank: user.rank || "unrated"
+    rank: user.rank || "unrated",
   };
 }
 
@@ -99,7 +95,7 @@ async function fetchGithub(username) {
   const data = res.data;
   return {
     repos: data.public_repos,
-    followers: data.followers
+    followers: data.followers,
   };
 }
 
@@ -127,7 +123,7 @@ app.post(
       console.error("Add material error:", err);
       res.status(500).json({ error: "Failed to add material" });
     }
-  }
+  },
 );
 
 // 📂 FACULTY GET MATERIALS OF OWN COURSE
@@ -146,9 +142,8 @@ app.get(
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch materials" });
     }
-  }
+  },
 );
-
 
 // ➕ UPLOAD PROFILE PICTURE
 app.post(
@@ -168,25 +163,28 @@ app.post(
     } catch (err) {
       res.status(500).json({ error: "Failed to upload profile picture" });
     }
-  }
+  },
 );
 
-
 // ✏️ UPDATE BIO
-app.put("/profile/update-bio", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const { bio } = req.body;
+app.put(
+  "/profile/update-bio",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { bio } = req.body;
 
-    const user = await studentModel.findById(req.user.id);
-    user.about = bio;
+      const user = await studentModel.findById(req.user.id);
+      user.about = bio;
 
-    await user.save();
-    res.json({ message: "Bio updated successfully" });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to update bio" });
-  }
-});
-
+      await user.save();
+      res.json({ message: "Bio updated successfully" });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to update bio" });
+    }
+  },
+);
 
 // CodeChef does not have an official API; we will scrape the profile page
 async function fetchCodechef(username) {
@@ -204,13 +202,12 @@ async function fetchCodechef(username) {
   return {
     rating: Number(rating) || 0,
     solved: Number(solved) || 0,
-    rank: "",                 // CodeChef page does not provide global rank here
-    easysolved: 0,            // not available
-    mediumsolved: 0,          // not available
-    hardsolved: 0             // not available
+    rank: "", // CodeChef page does not provide global rank here
+    easysolved: 0, // not available
+    mediumsolved: 0, // not available
+    hardsolved: 0, // not available
   };
 }
-
 
 // Fetch platform data based on platform type
 async function fetchPlatformData(platform, username) {
@@ -247,241 +244,302 @@ function calculateBadges(stats) {
 }
 
 // ➕ ADD CODING PLATFORM
-app.post("/profile/add-platform", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const { platform, username } = req.body;
+app.post(
+  "/profile/add-platform",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { platform, username } = req.body;
 
-    const user = await studentModel.findById(req.user.id);
+      const user = await studentModel.findById(req.user.id);
 
-    user.platforms.push({
-      platform,
-      username,
-      lastSynced: new Date()
-    });
+      user.platforms.push({
+        platform,
+        username,
+        lastSynced: new Date(),
+      });
 
-    await user.save();
+      await user.save();
 
-    res.json({ message: "Platform added", platforms: user.platforms });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to add platform" });
-  }
-});
+      res.json({ message: "Platform added", platforms: user.platforms });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to add platform" });
+    }
+  },
+);
 
 // 🔄 SYNC CODING PLATFORMS
-app.post("/profile/sync-platforms", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const user = await studentModel.findById(req.user.id);
+app.post(
+  "/profile/sync-platforms",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const user = await studentModel.findById(req.user.id);
 
-    for (let p of user.platforms) {
-      const stats = await fetchPlatformData(p.platform, p.username);
-      console.log("Fetched stats:", stats);
-      if (p.platform.toLowerCase() === "github") {
-        p.repos = stats.repos || 0;
-        p.followers = stats.followers || 0;
-      } else {
-        p.stats = stats;
+      for (let p of user.platforms) {
+        const stats = await fetchPlatformData(p.platform, p.username);
+        console.log("Fetched stats:", stats);
+        if (p.platform.toLowerCase() === "github") {
+          p.repos = stats.repos || 0;
+          p.followers = stats.followers || 0;
+        } else {
+          p.stats = stats;
+        }
+        p.badges = calculateBadges(stats);
+        p.lastSynced = new Date();
       }
-      p.badges = calculateBadges(stats);
-      p.lastSynced = new Date();
+
+      await user.save();
+
+      res.json({ message: "Platforms synced", platforms: user.platforms });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to sync platforms" });
     }
-
-    await user.save();
-
-    res.json({ message: "Platforms synced", platforms: user.platforms });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to sync platforms" });
-  }
-});
+  },
+);
 
 // 📖 GET MY PROFILE
-app.get("/profile/me", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const user = await studentModel.findById(req.user.id).select("-password");
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch profile" });
-  }
-});
+app.get(
+  "/profile/me",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const user = await studentModel.findById(req.user.id).select("-password");
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch profile" });
+    }
+  },
+);
 
 // 📖 STUDENT VIEW GRADES
-app.get("/my-grades/:courseId", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const grades = await Grade.find({
-      courseId: req.params.courseId,
-      studentId: req.user.id,
-    });
+app.get(
+  "/my-grades/:courseId",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const grades = await Grade.find({
+        courseId: req.params.courseId,
+        studentId: req.user.id,
+      });
 
-    res.json(grades);
-  } catch (err) {
-    console.error("Fetch grades error:", err);
-    res.status(500).json({ error: "Failed to fetch grades" });
-  }
-});
+      res.json(grades);
+    } catch (err) {
+      console.error("Fetch grades error:", err);
+      res.status(500).json({ error: "Failed to fetch grades" });
+    }
+  },
+);
 
 // ➕ SUBMIT / UPDATE GRADE
-app.post("/submit-grade", verifyToken, authorize(["faculty"]), upload.single("paper"), async (req, res) => {
-  try {
-    const { courseId, studentId, marks } = req.body;
+app.post(
+  "/submit-grade",
+  verifyToken,
+  authorize(["faculty"]),
+  upload.single("paper"),
+  async (req, res) => {
+    try {
+      const { courseId, studentId, marks } = req.body;
 
-    const filePath = req.file ? req.file.path : null;
+      const filePath = req.file ? req.file.path : null;
 
-    // Update if already graded
-    const grade = await Grade.findOneAndUpdate(
-      { courseId, studentId },
-      {
+      // Update if already graded
+      const grade = await Grade.findOneAndUpdate(
+        { courseId, studentId },
+        {
+          courseId,
+          studentId,
+          marks,
+          paperFile: filePath,
+          gradedBy: req.user.id,
+        },
+        { upsert: true, new: true },
+      );
+
+      res.json({ message: "Grade submitted successfully", grade });
+    } catch (err) {
+      console.error("Submit grade error:", err);
+      res.status(500).json({ error: "Failed to submit grade" });
+    }
+  },
+);
+
+app.get(
+  "/my-attendance/:courseId",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+
+      const attendance = await Attendance.find({
         courseId,
-        studentId,
-        marks,
-        paperFile: filePath,
-        gradedBy: req.user.id,
-      },
-      { upsert: true, new: true }
-    );
+        studentId: req.user.id,
+      }).sort({ date: -1 });
 
-    res.json({ message: "Grade submitted successfully", grade });
-  } catch (err) {
-    console.error("Submit grade error:", err);
-    res.status(500).json({ error: "Failed to submit grade" });
-  }
-});
-
-
-app.get("/my-attendance/:courseId", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const { courseId } = req.params;
-
-    const attendance = await Attendance.find({
-      courseId,
-      studentId: req.user.id,
-    }).sort({ date: -1 });
-
-    res.json(attendance);
-  } catch (err) {
-    console.error("Fetch attendance error:", err);
-    res.status(500).json({ error: "Failed to fetch attendance" });
-  }
-});
+      res.json(attendance);
+    } catch (err) {
+      console.error("Fetch attendance error:", err);
+      res.status(500).json({ error: "Failed to fetch attendance" });
+    }
+  },
+);
 
 // ➕ MARK ATTENDANCE
-app.post("/mark-attendance", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { courseId, records } = req.body;
-    // records = [{ studentId, status }]
+app.post(
+  "/mark-attendance",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { courseId, records } = req.body;
+      // records = [{ studentId, status }]
 
-    const today = new Date();
-    const date = today.toISOString().split("T")[0];
-    const day = today.toLocaleDateString("en-US", { weekday: "long" });
+      const today = new Date();
+      const date = today.toISOString().split("T")[0];
+      const day = today.toLocaleDateString("en-US", { weekday: "long" });
 
-    // Remove existing attendance for same course & date
-    await Attendance.deleteMany({ courseId, date });
+      // Remove existing attendance for same course & date
+      await Attendance.deleteMany({ courseId, date });
 
-    const attendanceData = records.map((r) => ({
-      courseId,
-      studentId: r.studentId,
-      status: r.status,
-      date,
-      day,
-      markedBy: req.user.id,
-    }));
+      const attendanceData = records.map((r) => ({
+        courseId,
+        studentId: r.studentId,
+        status: r.status,
+        date,
+        day,
+        markedBy: req.user.id,
+      }));
 
-    await Attendance.insertMany(attendanceData);
+      await Attendance.insertMany(attendanceData);
 
-    res.json({ message: "Attendance marked successfully" });
-  } catch (err) {
-    console.error("Mark attendance error:", err);
-    res.status(500).json({ error: "Failed to mark attendance" });
-  }
-});
+      res.json({ message: "Attendance marked successfully" });
+    } catch (err) {
+      console.error("Mark attendance error:", err);
+      res.status(500).json({ error: "Failed to mark attendance" });
+    }
+  },
+);
 // ➕ CREATE QUIZ
-app.post("/create-quiz", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { title, courseId, questions } = req.body;
+app.post(
+  "/create-quiz",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { title, courseId, questions } = req.body;
 
-    const quiz = await Quiz.create({
-      title,
-      courseId,
-      facultyId: req.user.id,
-      questions,
-    });
+      const quiz = await Quiz.create({
+        title,
+        courseId,
+        facultyId: req.user.id,
+        questions,
+      });
 
-    res.json({ message: "Quiz created", quiz });
-  } catch (err) {
-    res.status(500).json({ error: "Quiz creation failed" });
-  }
-});
+      res.json({ message: "Quiz created", quiz });
+    } catch (err) {
+      res.status(500).json({ error: "Quiz creation failed" });
+    }
+  },
+);
 
 // 📊 GET QUIZZES FOR A COURSE
-app.get("/course-quizzes/:courseId", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const { courseId } = req.params;
+app.get(
+  "/course-quizzes/:courseId",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
 
-    // Check enrollment
-    const enrolled = await Enrollment.findOne({
-      courseId,
-      studentId: req.user.id,
-    });
+      // Check enrollment
+      const enrolled = await Enrollment.findOne({
+        courseId,
+        studentId: req.user.id,
+      });
 
-    if (!enrolled) {
-      return res.status(403).json({ error: "Not enrolled in this course" });
+      if (!enrolled) {
+        return res.status(403).json({ error: "Not enrolled in this course" });
+      }
+
+      const quizzes = await Quiz.find({ courseId });
+      res.json(quizzes);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch quizzes" });
     }
-
-    const quizzes = await Quiz.find({ courseId });
-    res.json(quizzes);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch quizzes" });
-  }
-});
+  },
+);
 
 // ➕ SUBMIT QUIZ
-app.post("/submit-quiz", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const { quizId, answers } = req.body;
+app.post(
+  "/submit-quiz",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const { quizId, answers } = req.body;
 
-    const quiz = await Quiz.findById(quizId);
-    if (!quiz) return res.status(404).json({ error: "Quiz not found" });
+      const quiz = await Quiz.findById(quizId);
+      if (!quiz) return res.status(404).json({ error: "Quiz not found" });
 
-    // Calculate score
-    let score = 0;
-    quiz.questions.forEach((q, i) => {
-      if (answers[i] === q.correctAnswer) score++;
-    });
+      // Calculate score
+      let score = 0;
+      quiz.questions.forEach((q, i) => {
+        if (answers[i] === q.correctAnswer) score++;
+      });
 
-    const submission = await QuizSubmission.create({
-      quizId,
-      studentId: req.user.id,
-      answers,
-      score,
-    });
+      const submission = await QuizSubmission.create({
+        quizId,
+        studentId: req.user.id,
+        answers,
+        score,
+      });
 
-    res.json({ message: "Quiz submitted", score });
-  } catch (err) {
-    res.status(500).json({ error: "Quiz submission failed" });
-  }
-});
+      res.json({ message: "Quiz submitted", score });
+    } catch (err) {
+      res.status(500).json({ error: "Quiz submission failed" });
+    }
+  },
+);
 
 // 📊 GET QUIZ RESULTS FOR FACULTY
-app.get("/quiz-results/:quizId", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const results = await QuizSubmission.find({ quizId: req.params.quizId })
-      .populate("studentId", "name email");
+app.get(
+  "/quiz-results/:quizId",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const results = await QuizSubmission.find({
+        quizId: req.params.quizId,
+      }).populate("studentId", "name email");
 
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch results" });
-  }
-});
+      res.json(results);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch results" });
+    }
+  },
+);
 
 // 📊 GET FACULTY QUIZZES
-app.get("/faculty-quizzes", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const quizzes = await Quiz.find({ facultyId: req.user.id });
-    res.json(quizzes);
-  } catch (err) {
-    console.error("Fetch faculty quizzes error:", err);
-    res.status(500).json({ error: "Failed to fetch quizzes" });
-  }
-});
+app.get(
+  "/faculty-quizzes",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const quizzes = await Quiz.find({ facultyId: req.user.id });
+      res.json(quizzes);
+    } catch (err) {
+      console.error("Fetch faculty quizzes error:", err);
+      res.status(500).json({ error: "Failed to fetch quizzes" });
+    }
+  },
+);
 
 //student details
 app.get(
@@ -492,19 +550,18 @@ app.get(
     try {
       const studentUser = await studentModel
         .findOne({ _id: req.user.id })
-        .select("-password");   // hide password
+        .select("-password"); // hide password
 
       if (!studentUser) {
         return res.status(404).json({ error: "Student not found" });
       }
 
       return res.status(200).json(studentUser);
-
     } catch (error) {
       console.error("Student Details Error:", error);
       return res.status(500).json({ error: "Cannot get the details" });
     }
-  }
+  },
 );
 
 // 🔐 STUDENT LOGIN
@@ -523,28 +580,26 @@ app.post("/student-login", async (req, res) => {
       return res.status(400).json({ error: "Invalid email or password" });
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },   // role decides everything
+      { id: user._id, role: user.role }, // role decides everything
       "your_jwt_secret",
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true, // required for SameSite=None
+      sameSite: "none", // allow cross-site cookies
     });
 
     // 👇 SEND ROLE TO FRONTEND
     res.json({
       message: "Login successful",
-      role: user.role,   // "student" | "faculty" | "admin"
+      role: user.role, // "student" | "faculty" | "admin"
     });
-
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // 🔐 FACULTY LOGIN
 app.post("/faculty-login", async (req, res) => {
@@ -572,18 +627,17 @@ app.post("/faculty-login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       "your_jwt_secret",
-      { expiresIn: "1d" }
+      { expiresIn: "1d" },
     );
 
     // 5️⃣ Send cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,   // true only in https
-      sameSite: "lax",
+      secure: true, // required for SameSite=None
+      sameSite: "none", // allow cross-site cookies
     });
 
     res.json({ message: "Faculty login successful" });
-
   } catch (error) {
     console.error("Faculty login error:", error);
     res.status(500).json({ error: "Server error" });
@@ -591,95 +645,115 @@ app.post("/faculty-login", async (req, res) => {
 });
 
 // ➕ CREATE FACULTY
-app.post("/create-faculty", verifyToken, authorize(["admin"]), async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+app.post(
+  "/create-faculty",
+  verifyToken,
+  authorize(["admin"]),
+  async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: "All fields are required" });
+      if (!name || !email || !password) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      const existing = await studentModel.findOne({ email });
+      if (existing) {
+        return res.status(400).json({ error: "Email already registered" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newFaculty = new studentModel({
+        name,
+        email,
+        password: hashedPassword,
+        role: "faculty",
+      });
+
+      await newFaculty.save();
+
+      res.status(201).json({ message: "Faculty created successfully" });
+    } catch (error) {
+      console.error("Create faculty error:", error);
+      res.status(500).json({ error: "Server error" });
     }
-
-    const existing = await studentModel.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ error: "Email already registered" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newFaculty = new studentModel({
-      name,
-      email,
-      password: hashedPassword,
-      role: "faculty",
-    });
-
-    await newFaculty.save();
-
-    res.status(201).json({ message: "Faculty created successfully" });
-  } catch (error) {
-    console.error("Create faculty error:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
+  },
+);
 
 // ➕ CREATE STUDENT
-app.post("/create-student", verifyToken, authorize(["admin"]), async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+app.post(
+  "/create-student",
+  verifyToken,
+  authorize(["admin"]),
+  async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: "All fields are required" });
+      if (!name || !email || !password) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      const existing = await studentModel.findOne({ email });
+      if (existing) {
+        return res.status(400).json({ error: "Email already registered" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newStudent = new studentModel({
+        name,
+        email,
+        password: hashedPassword,
+        role: "student",
+      });
+
+      await newStudent.save();
+
+      res.status(201).json({ message: "Student created successfully" });
+    } catch (error) {
+      console.error("Create student error:", error);
+      res.status(500).json({ error: "Server error" });
     }
-
-    const existing = await studentModel.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ error: "Email already registered" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newStudent = new studentModel({
-      name,
-      email,
-      password: hashedPassword,
-      role: "student",
-    });
-
-    await newStudent.save();
-
-    res.status(201).json({ message: "Student created successfully" });
-  } catch (error) {
-    console.error("Create student error:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+  },
+);
 
 // 📚 GET ALL COURSES
-app.get("/all-courses", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const courses = await Course.find().populate("facultyId", "name email");
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch courses" });
-  }
-});
+app.get(
+  "/all-courses",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const courses = await Course.find().populate("facultyId", "name email");
+      res.json(courses);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  },
+);
 
 // 👩‍🎓 GET STUDENTS IN A COURSE
-app.get("/course-students/:courseId", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { courseId } = req.params;
+app.get(
+  "/course-students/:courseId",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
 
-    const students = await Enrollment.find({ courseId })
-      .populate("studentId", "name email");
+      const students = await Enrollment.find({ courseId }).populate(
+        "studentId",
+        "name email",
+      );
 
-    res.json(students);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch students" });
-  }
-});
-
+      res.json(students);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to fetch students" });
+    }
+  },
+);
 
 function verifyToken(req, res, next) {
   const token = req.cookies.token;
@@ -687,7 +761,7 @@ function verifyToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, "your_jwt_secret");
-    console.log("Decoded token:", decoded); 
+    console.log("Decoded token:", decoded);
     req.user = decoded;
     next();
   } catch (err) {
@@ -703,7 +777,6 @@ function authorize(roles) {
     next();
   };
 }
-
 
 // ➕ UPLOAD ASSIGNMENT SUBMISSION
 
@@ -747,7 +820,6 @@ app.post("/forgot-password", async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     res.json({ message: "OTP sent to your email" });
-
   } catch (error) {
     console.error("Mail error:", error);
     res.status(500).json({ error: "Failed to send OTP email" });
@@ -765,10 +837,7 @@ app.post("/reset-password", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (
-      student.resetOTP !== otp ||
-      student.otpExpires < Date.now()
-    ) {
+    if (student.resetOTP !== otp || student.otpExpires < Date.now()) {
       return res.status(400).json({ error: "Invalid or expired OTP" });
     }
 
@@ -790,7 +859,7 @@ app.post(
   "/create-course",
   verifyToken,
   authorize(["faculty"]),
-  upload.single("image"),   // 👈 image field name
+  upload.single("image"), // 👈 image field name
   async (req, res) => {
     try {
       const { title, code, description } = req.body;
@@ -808,9 +877,8 @@ app.post(
       console.error("Create Course Error:", err);
       res.status(500).json({ error: "Course creation failed" });
     }
-  }
+  },
 );
-
 
 // 📝 ENROLL IN COURSE
 app.post("/enroll", verifyToken, authorize(["student"]), async (req, res) => {
@@ -836,241 +904,331 @@ app.post("/enroll", verifyToken, authorize(["student"]), async (req, res) => {
 });
 
 // 📚 GET MY COURSES
-app.get("/my-courses", verifyToken, authorize(["student"]), async (req, res) => {
-  const courses = await Enrollment.find({ studentId: req.user.id })
-    .populate("courseId");
+app.get(
+  "/my-courses",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    const courses = await Enrollment.find({ studentId: req.user.id }).populate(
+      "courseId",
+    );
 
-  res.json(courses);
-});
+    res.json(courses);
+  },
+);
 
-app.get("/student/mycourses", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const enrollments = await Enrollment.find({ studentId: req.user.id })
-      .populate("courseId");
+app.get(
+  "/student/mycourses",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const enrollments = await Enrollment.find({
+        studentId: req.user.id,
+      }).populate("courseId");
 
-    res.json(enrollments);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch my courses" });
-  }
-});
-
+      res.json(enrollments);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch my courses" });
+    }
+  },
+);
 
 // 📚 GET FACULTY COURSES
-app.get("/faculty-courses", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const courses = await Course.find({ facultyId: req.user.id });
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch courses" });
-  }
-});
+app.get(
+  "/faculty-courses",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const courses = await Course.find({ facultyId: req.user.id });
+      res.json(courses);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  },
+);
 
-app.get("/student/recent-courses", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const studentCourses = await Course.find({ students: req.user.id })
-      .sort({ createdAt: -1 })
-      .limit(3);
+app.get(
+  "/student/recent-courses",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const studentCourses = await Course.find({ students: req.user.id })
+        .sort({ createdAt: -1 })
+        .limit(3);
 
-    res.json(studentCourses);
-  } catch (err) {
-    console.error("Course Fetch Error:", err);
-    res.status(500).json({ error: "Failed to fetch courses" });
-  }
-});
+      res.json(studentCourses);
+    } catch (err) {
+      console.error("Course Fetch Error:", err);
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  },
+);
 
-app.get("/student/mycourses", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    const studentCourses = await Course.find({ students: req.user.id })
-    res.json(studentCourses);
-  } catch (err) {
-    console.error("Course Fetch Error:", err);
-    res.status(500).json({ error: "Failed to fetch courses" });
-  }
-})
+app.get(
+  "/student/mycourses",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const studentCourses = await Course.find({ students: req.user.id });
+      res.json(studentCourses);
+    } catch (err) {
+      console.error("Course Fetch Error:", err);
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  },
+);
 
+app.get(
+  "/student/assignments",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      // 1️⃣ Find courses this student is enrolled in
+      const courses = await Course.find({ students: req.user.id }).select(
+        "_id",
+      );
+      const courseIds = courses.map((c) => c._id);
 
-app.get("/student/assignments", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    // 1️⃣ Find courses this student is enrolled in
-    const courses = await Course.find({ students: req.user.id }).select("_id");
-    const courseIds = courses.map(c => c._id);
+      // 2️⃣ Find assignments for those courses
+      const studentassignment = await Assignment.find({
+        courseId: { $in: courseIds },
+      })
+        .sort({ createdAt: 1 })
+        .limit(3);
 
-    // 2️⃣ Find assignments for those courses
-    const studentassignment = await Assignment.find({
-      courseId: { $in: courseIds }
-    })
-      .sort({ createdAt: 1 })
-      .limit(3);
-
-    res.json(studentassignment);
-  } catch (err) {
-    console.error("Assignment Fetch Error:", err);
-    res.status(500).json({ error: "Failed to fetch assignments" });
-  }
-});
-
+      res.json(studentassignment);
+    } catch (err) {
+      console.error("Assignment Fetch Error:", err);
+      res.status(500).json({ error: "Failed to fetch assignments" });
+    }
+  },
+);
 
 // 🆕 GET RECENT COURSES CREATED BY FACULTY
-app.get("/faculty/recent-courses", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const courses = await Course.find({ facultyId: req.user.id })
-      .sort({ createdAt: -1 })
-      .limit(3).populate("facultyId", "name email");
+app.get(
+  "/faculty/recent-courses",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const courses = await Course.find({ facultyId: req.user.id })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .populate("facultyId", "name email");
 
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch courses" });
-  }
-});
+      res.json(courses);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  },
+);
 
 // 🆕 GET RECENT ASSIGNMENTS CREATED BY FACULTY
-app.get("/faculty/recent-assignments", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const assignments = await Assignment.find({ facultyId: req.user.id })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .populate("courseId", "title");
+app.get(
+  "/faculty/recent-assignments",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const assignments = await Assignment.find({ facultyId: req.user.id })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .populate("courseId", "title");
 
-    res.json(assignments);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch assignments" });
-  }
-});
+      res.json(assignments);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch assignments" });
+    }
+  },
+);
 
-app.get("/student/notifications", verifyToken, authorize(["student"]), async (req, res) => {
-  try{
-    const noti = await Notification.find({studentId:req.user.id})
-    .sort({createdAt:-1})
-    .limit(3);
-    res.json(noti);
-  }catch(error){
-    res.status(500).json({ error: "Failed to fetch notifications" });
-  }
-});
+app.get(
+  "/student/notifications",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      const noti = await Notification.find({ studentId: req.user.id })
+        .sort({ createdAt: -1 })
+        .limit(3);
+      res.json(noti);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  },
+);
 
 // 👩‍🎓 GET STUDENTS IN A COURSE
-app.get("/course-students/:courseId", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { courseId } = req.params;
+app.get(
+  "/course-students/:courseId",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
 
-    const students = await Enrollment.find({ courseId })
-      .populate("studentId", "name email");
+      const students = await Enrollment.find({ courseId }).populate(
+        "studentId",
+        "name email",
+      );
 
-    res.json(students);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch students" });
-  }
-});
+      res.json(students);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to fetch students" });
+    }
+  },
+);
 
 // 📊 GET FACULTY ACHIEVEMENTS
-app.get("/faculty/achievements", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const totalCourses = await Course.countDocuments({ facultyId: req.user.id });
-
-    const enrollments = await Enrollment.find()
-      .populate({
-        path: "courseId",
-        match: { facultyId: req.user.id }
+app.get(
+  "/faculty/achievements",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const totalCourses = await Course.countDocuments({
+        facultyId: req.user.id,
       });
 
-    const totalStudents = enrollments.filter(e => e.courseId !== null).length;
+      const enrollments = await Enrollment.find().populate({
+        path: "courseId",
+        match: { facultyId: req.user.id },
+      });
 
-    const totalAssignments = await Assignment.countDocuments({ facultyId: req.user.id });
+      const totalStudents = enrollments.filter(
+        (e) => e.courseId !== null,
+      ).length;
 
-    res.json({
-      totalCourses,
-      totalStudents,
-      totalAssignments
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch achievements" });
-  }
-});
+      const totalAssignments = await Assignment.countDocuments({
+        facultyId: req.user.id,
+      });
+
+      res.json({
+        totalCourses,
+        totalStudents,
+        totalAssignments,
+      });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch achievements" });
+    }
+  },
+);
 
 // ➕ ADD NOTIFICATION
-app.post("/faculty/add-notification", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { courseId, message } = req.body;
+app.post(
+  "/faculty/add-notification",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { courseId, message } = req.body;
 
-    const note = await Notification.create({
-      message,
-      courseId,
-      facultyId: req.user.id
-    });
+      const note = await Notification.create({
+        message,
+        courseId,
+        facultyId: req.user.id,
+      });
 
-    res.json({ message: "Notification added", note });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to add notification" });
-  }
-});
+      res.json({ message: "Notification added", note });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to add notification" });
+    }
+  },
+);
 
 // 🆕 GET RECENT NOTIFICATIONS FOR FACULTY
-app.get("/faculty/notifications", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const notes = await Notification.find({ facultyId: req.user.id })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .populate("courseId", "title");
+app.get(
+  "/faculty/notifications",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const notes = await Notification.find({ facultyId: req.user.id })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .populate("courseId", "title");
 
-    res.json(notes);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch notifications" });
-  }
-});
+      res.json(notes);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  },
+);
 
 // ➕ CREATE ASSIGNMENT
-app.post("/create-assignment", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const { title, description, courseId, dueDate } = req.body;
+app.post(
+  "/create-assignment",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const { title, description, courseId, dueDate } = req.body;
 
-    if (!title || !description || !courseId || !dueDate) {
-      return res.status(400).json({ error: "All fields are required" });
+      if (!title || !description || !courseId || !dueDate) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      const assignment = await Assignment.create({
+        title,
+        description,
+        courseId,
+        facultyId: req.user.id,
+        dueDate,
+      });
+
+      res.json({ message: "Assignment created successfully", assignment });
+    } catch (err) {
+      console.error("Create assignment error:", err);
+      res.status(500).json({ error: "Failed to create assignment" });
     }
-
-    const assignment = await Assignment.create({
-      title,
-      description,
-      courseId,
-      facultyId: req.user.id,
-      dueDate
-    });
-
-    res.json({ message: "Assignment created successfully", assignment });
-  } catch (err) {
-    console.error("Create assignment error:", err);
-    res.status(500).json({ error: "Failed to create assignment" });
-  }
-});
+  },
+);
 // 📝 GET FACULTY ASSIGNMENTS
-app.get("/faculty-assignments", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const assignments = await Assignment.find({ facultyId: req.user.id });
-    res.json(assignments);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch assignments" });
-  }
-});
-
+app.get(
+  "/faculty-assignments",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const assignments = await Assignment.find({ facultyId: req.user.id });
+      res.json(assignments);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch assignments" });
+    }
+  },
+);
 
 // 📝 GET MY ASSIGNMENTS
-app.get("/my-assignments", verifyToken, authorize(["student"]), async (req, res) => {
-  try {
-    // 1️⃣ Get student's enrolled courses
-    const enrollments = await Enrollment.find({ studentId: req.user.id });
-    const courseIds = enrollments.map(e => e.courseId);
+app.get(
+  "/my-assignments",
+  verifyToken,
+  authorize(["student"]),
+  async (req, res) => {
+    try {
+      // 1️⃣ Get student's enrolled courses
+      const enrollments = await Enrollment.find({ studentId: req.user.id });
+      const courseIds = enrollments.map((e) => e.courseId);
 
-    // 2️⃣ Get assignments for those courses
-    const assignments = await Assignment.find({ courseId: { $in: courseIds } })
-      .populate("courseId", "title")
-      .sort({ createdAt: -1 });
+      // 2️⃣ Get assignments for those courses
+      const assignments = await Assignment.find({
+        courseId: { $in: courseIds },
+      })
+        .populate("courseId", "title")
+        .sort({ createdAt: -1 });
 
-    res.json(assignments);
-  } catch (err) {
-    console.error("Fetch assignments error:", err);
-    res.status(500).json({ error: "Failed to fetch assignments" });
-  }
-});
+      res.json(assignments);
+    } catch (err) {
+      console.error("Fetch assignments error:", err);
+      res.status(500).json({ error: "Failed to fetch assignments" });
+    }
+  },
+);
 
 // ➕ SUBMIT ASSIGNMENT
 app.post(
@@ -1097,20 +1255,26 @@ app.post(
       console.error("Submit error:", err);
       res.status(500).json({ error: "Failed to submit assignment" });
     }
-  }
+  },
 );
 
 // ASSIGNMENT SUBMISSIONS FOR FACULTY
-app.get("/assignment-submissions/:assignmentId", verifyToken, authorize(["faculty"]), async (req, res) => {
-  try {
-    const submissions = await Submission.find({ assignmentId: req.params.assignmentId })
-      .populate("studentId", "name email");
+app.get(
+  "/assignment-submissions/:assignmentId",
+  verifyToken,
+  authorize(["faculty"]),
+  async (req, res) => {
+    try {
+      const submissions = await Submission.find({
+        assignmentId: req.params.assignmentId,
+      }).populate("studentId", "name email");
 
-    res.json(submissions);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch submissions" });
-  }
-});
+      res.json(submissions);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to fetch submissions" });
+    }
+  },
+);
 
 app.get(
   "/student/course/:courseId/materials",
@@ -1130,15 +1294,16 @@ app.get(
         return res.status(403).json({ error: "Not enrolled in this course" });
       }
 
-      const materials = await CourseMaterial.find({ courseId }).sort({ createdAt: -1 });
+      const materials = await CourseMaterial.find({ courseId }).sort({
+        createdAt: -1,
+      });
 
       res.json(materials);
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch materials" });
     }
-  }
+  },
 );
-
 
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
