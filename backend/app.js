@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const studentModel = require("./mongo");
@@ -5,6 +6,7 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const Grade = require("./gradeModel");
 const CourseMaterial = require("./courseMaterialModel");
@@ -15,6 +17,7 @@ const QuizSubmission = require("./quizSubmissionModel");
 const Enrollment = require("./enrollmentModel");
 const multer = require("multer");
 const path = require("path");
+const PORT = process.env.PORT || 5000;
 const Submission = require("./submissionModel");
 const Course = require("./courseModel");
 const Notification = require("./notoficationModel");
@@ -36,7 +39,10 @@ app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: [
+      "http://localhost:5173",
+      "https://lms-system-lake.vercel.app/"
+    ],
     credentials: true, // 👈 allow cookies
   })
 );
@@ -52,6 +58,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch(err => console.error("MongoDB connection error:", err));
 // LeetCode API
 async function fetchLeetCode(username) {
   const res = await axios.get(`https://alfa-leetcode-api.onrender.com/${username}/profile`);
@@ -496,6 +505,7 @@ app.get(
 );
 
 // 🔐 STUDENT LOGIN
+// 🔐 COMMON LOGIN (student / faculty / admin)
 app.post("/student-login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -510,7 +520,7 @@ app.post("/student-login", async (req, res) => {
       return res.status(400).json({ error: "Invalid email or password" });
 
     const token = jwt.sign(
-      { id: user._id, role: user.role }, // ✅ role from DB
+      { id: user._id, role: user.role },   // role decides everything
       "your_jwt_secret",
       { expiresIn: "1d" }
     );
@@ -521,11 +531,17 @@ app.post("/student-login", async (req, res) => {
       sameSite: "lax",
     });
 
-    res.json({ message: "Login successful", role: user.role });
+    // 👇 SEND ROLE TO FRONTEND
+    res.json({
+      message: "Login successful",
+      role: user.role,   // "student" | "faculty" | "admin"
+    });
+
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // 🔐 FACULTY LOGIN
 app.post("/faculty-login", async (req, res) => {
@@ -668,6 +684,7 @@ function verifyToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, "your_jwt_secret");
+    console.log("Decoded token:", decoded); 
     req.user = decoded;
     next();
   } catch (err) {
@@ -1120,6 +1137,6 @@ app.get(
 );
 
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });

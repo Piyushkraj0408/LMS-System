@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/lms")
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log("DB Error:", err));
-
 // 🌐 Coding Platform Schema
 const platformSchema = new mongoose.Schema({
   platform: String,        // "LeetCode", "GitHub", "CodeChef"
