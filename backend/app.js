@@ -50,7 +50,7 @@ app.use(
 );
 
 // 🔴 CRITICAL: handle preflight requests
-app.options("*", cors());
+app.options("/*", cors());
 app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
