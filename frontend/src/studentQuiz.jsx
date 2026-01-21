@@ -12,7 +12,7 @@ export default function StudentQuiz() {
     if (!courseId) return;
 
     axios
-      .get(`http://localhost:5000/course-quizzes/${courseId}`, {
+      .get(`https://lms-system-zm6u.onrender.com/course-quizzes/${courseId}`, {
         withCredentials: true,
       })
       .then((res) => setQuizzes(res.data))
@@ -22,7 +22,7 @@ export default function StudentQuiz() {
   const submitQuiz = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/submit-quiz",
+        "https://lms-system-zm6u.onrender.com/submit-quiz",
         { quizId: selectedQuiz._id, answers },
         { withCredentials: true }
       );

@@ -20,7 +20,7 @@ export default function Admin() {
     
     try {
       const res = await axios.post(
-        "http://localhost:5000/create-student",
+        "https://lms-system-zm6u.onrender.com/create-student",
         {
           name: studentName,
           email: studentEmail,
@@ -49,7 +49,7 @@ export default function Admin() {
     
     try {
       const res = await axios.post(
-        "http://localhost:5000/create-faculty",
+        "https://lms-system-zm6u.onrender.com/create-faculty",
         {
           name: facultyName,
           email: facultyEmail,

@@ -14,7 +14,7 @@ export default function StudentProfile() {
   // 🔄 Load profile
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/profile/me", {
+      const res = await axios.get("https://lms-system-zm6u.onrender.com/profile/me", {
         withCredentials: true,
       });
       setProfile(res.data);
@@ -34,7 +34,7 @@ export default function StudentProfile() {
 
     try {
       await axios.post(
-        "http://localhost:5000/profile/add-platform",
+        "https://lms-system-zm6u.onrender.com/profile/add-platform",
         { platform, username },
         { withCredentials: true }
       );
@@ -52,7 +52,7 @@ export default function StudentProfile() {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:5000/profile/sync-platforms",
+        "https://lms-system-zm6u.onrender.com/profile/sync-platforms",
         {},
         { withCredentials: true }
       );
@@ -68,7 +68,7 @@ export default function StudentProfile() {
   const handleUpdateBio = async () => {
     try {
       await axios.put(
-        "http://localhost:5000/profile/update-bio",
+        "https://lms-system-zm6u.onrender.com/profile/update-bio",
         { bio: editBio },
         { withCredentials: true }
       );
@@ -88,7 +88,7 @@ export default function StudentProfile() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/profile/upload-pic",
+        "https://lms-system-zm6u.onrender.com/profile/upload-pic",
         formData,
         {
           withCredentials: true,
@@ -116,7 +116,7 @@ export default function StudentProfile() {
           <img
             src={
               profile.profilePic
-                ? `http://localhost:5000/${profile.profilePic}?t=${Date.now()}`
+                ? `https://lms-system-zm6u.onrender.com/${profile.profilePic}?t=${Date.now()}`
                 : "/default-avatar.png"
             }
             alt="profile"

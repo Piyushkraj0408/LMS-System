@@ -50,7 +50,7 @@ export default function FacultyCoursePage() {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/faculty/add-material",
+        "https://lms-system-zm6u.onrender.com/faculty/add-material",
         formData,
         { withCredentials: true }
       );

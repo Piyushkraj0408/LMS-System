@@ -11,7 +11,7 @@ const Studentmycourses = () => {
     const fetchMyCourses = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/student/mycourses",
+          "https://lms-system-zm6u.onrender.com/student/mycourses",
           { withCredentials: true }
         );
         
@@ -40,7 +40,7 @@ const Studentmycourses = () => {
           >
             {item.courseId.image && (
               <img
-                src={`http://localhost:5000${item.courseId.image}`}
+                src={`https://lms-system-zm6u.onrender.com${item.courseId.image}`}
                 alt={item.courseId.title}
               />
             )}

@@ -16,7 +16,7 @@ export default function Dash() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/student/details", {
+      const res = await axios.get("https://lms-system-zm6u.onrender.com/student/details", {
         withCredentials: true,
       });
       setUser(res.data);
@@ -28,13 +28,13 @@ export default function Dash() {
   const fetchDashboard = async () => {
     try {
       const [c, a, n] = await Promise.all([
-        axios.get("http://localhost:5000/student/recent-courses", {
+        axios.get("https://lms-system-zm6u.onrender.com/student/recent-courses", {
           withCredentials: true,
         }),
-        axios.get("http://localhost:5000/student/assignments", {
+        axios.get("https://lms-system-zm6u.onrender.com/student/assignments", {
           withCredentials: true,
         }),
-        axios.get("http://localhost:5000/student/notifications", {
+        axios.get("https://lms-system-zm6u.onrender.com/student/notifications", {
           withCredentials: true,
         }),
       ]);

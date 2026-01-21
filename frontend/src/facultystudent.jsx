@@ -11,7 +11,7 @@ export default function FacultyStudent() {
   // 🔄 Fetch faculty courses
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-courses", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-courses", { withCredentials: true })
       .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -22,7 +22,7 @@ export default function FacultyStudent() {
     setSelectedCourse(courseId);
     try {
       const res = await axios.get(
-        `http://localhost:5000/course-students/${courseId}`,
+        `https://lms-system-zm6u.onrender.com/course-students/${courseId}`,
         { withCredentials: true }
       );
 

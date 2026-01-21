@@ -16,10 +16,10 @@ export default function FacultyDash() {
   const fetchDashboard = async () => {
     try {
       const [c, a, n, ach] = await Promise.all([
-        axios.get("http://localhost:5000/faculty/recent-courses", { withCredentials: true }),
-        axios.get("http://localhost:5000/faculty/recent-assignments", { withCredentials: true }),
-        axios.get("http://localhost:5000/faculty/notifications", { withCredentials: true }),
-        axios.get("http://localhost:5000/faculty/achievements", { withCredentials: true }),
+        axios.get("https://lms-system-zm6u.onrender.com/faculty/recent-courses", { withCredentials: true }),
+        axios.get("https://lms-system-zm6u.onrender.com/faculty/recent-assignments", { withCredentials: true }),
+        axios.get("https://lms-system-zm6u.onrender.com/faculty/notifications", { withCredentials: true }),
+        axios.get("https://lms-system-zm6u.onrender.com/faculty/achievements", { withCredentials: true }),
       ]);
       console.log(c.data);
       setCourses(c.data);

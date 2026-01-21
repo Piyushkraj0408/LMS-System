@@ -14,7 +14,7 @@ export default function FacultySubmissions({ assignmentId }) {
     const fetchSubmissions = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/assignment-submissions/${assignmentId}`,
+          `https://lms-system-zm6u.onrender.com/assignment-submissions/${assignmentId}`,
           { withCredentials: true }
         );
         setSubmissions(res.data);
@@ -53,7 +53,7 @@ export default function FacultySubmissions({ assignmentId }) {
                 <td>{s.studentId?.email || "N/A"}</td>
                 <td>
                   <a
-                    href={`http://localhost:5000/${s.filePath}`}
+                    href={`https://lms-system-zm6u.onrender.com/${s.filePath}`}
                     target="_blank"
                     rel="noreferrer"
                   >

@@ -12,7 +12,7 @@ export default function Facultyattendance() {
   // Load faculty courses
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-courses", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-courses", { withCredentials: true })
       .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -26,7 +26,7 @@ export default function Facultyattendance() {
     
     try {
       const res = await axios.get(
-        `http://localhost:5000/course-students/${courseId}`,
+        `https://lms-system-zm6u.onrender.com/course-students/${courseId}`,
         { withCredentials: true }
       );
 
@@ -61,7 +61,7 @@ export default function Facultyattendance() {
     
     try {
       const res = await axios.post(
-        "http://localhost:5000/mark-attendance",
+        "https://lms-system-zm6u.onrender.com/mark-attendance",
         { courseId: selectedCourse, records },
         { withCredentials: true }
       );

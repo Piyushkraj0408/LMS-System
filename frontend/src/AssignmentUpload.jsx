@@ -54,7 +54,7 @@ export default function AssignmentUpload({ assignmentId, onUploadSuccess }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/submit-assignment",
+        "https://lms-system-zm6u.onrender.com/submit-assignment",
         formData,
         {
           withCredentials: true,

@@ -12,7 +12,7 @@ const StudentCoursePage = () => {
     const fetchMaterials = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/student/course/${courseId}/materials`,
+          `https://lms-system-zm6u.onrender.com/student/course/${courseId}/materials`,
           { withCredentials: true }
         );
         setMaterials(res.data);
@@ -55,7 +55,7 @@ const StudentCoursePage = () => {
         notes.map(n => (
           <div key={n._id}>
             <a
-              href={`http://localhost:5000/${n.filePath}`}
+              href={`https://lms-system-zm6u.onrender.com/${n.filePath}`}
               target="_blank"
               rel="noreferrer"
             >

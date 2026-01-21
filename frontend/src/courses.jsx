@@ -11,7 +11,7 @@ export default function Courses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/all-courses", {
+        const res = await axios.get("https://lms-system-zm6u.onrender.com/all-courses", {
           withCredentials: true,
         });
         setCourses(res.data);
@@ -29,7 +29,7 @@ export default function Courses() {
   const handleEnroll = async (courseId) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/enroll",
+        "https://lms-system-zm6u.onrender.com/enroll",
         { courseId },
         { withCredentials: true }
       );

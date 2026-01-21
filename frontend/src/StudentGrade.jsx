@@ -11,7 +11,7 @@ export default function StudentGrade() {
     if (!courseId) return;
 
     axios
-      .get(`http://localhost:5000/my-grades/${courseId}`, { withCredentials: true })
+      .get(`https://lms-system-zm6u.onrender.com/my-grades/${courseId}`, { withCredentials: true })
       .then((res) => {
         setGrades(res.data);
         setLoading(false);
@@ -149,7 +149,7 @@ export default function StudentGrade() {
                     <td data-label="Paper">
                       {g.paperFile ? (
                         <a
-                          href={`http://localhost:5000/${g.paperFile}`}
+                          href={`https://lms-system-zm6u.onrender.com/${g.paperFile}`}
                           target="_blank"
                           rel="noreferrer"
                           className="view-paper-link"

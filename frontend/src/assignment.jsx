@@ -19,7 +19,7 @@ const handleUploadSuccess = (assignmentId) => {
 
   const fetchAssignments = () => {
     axios
-      .get("http://localhost:5000/my-assignments", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/my-assignments", { withCredentials: true })
       .then((res) => setAssignments(res.data))
       .catch((err) => console.log(err));
   };

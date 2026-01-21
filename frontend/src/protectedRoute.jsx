@@ -5,7 +5,7 @@ export default function ProtectedRoute({ children, role }) {
   const [isAuth, setIsAuth] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/check-auth", {
+    fetch("https://lms-system-zm6u.onrender.com/check-auth", {
       credentials: "include",
     })
       .then((res) => {

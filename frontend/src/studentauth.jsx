@@ -68,7 +68,7 @@ export default function Studentauth() {
   e.preventDefault();
 
   try {
-    const res = await fetch("http://localhost:5000/student-login", {
+    const res = await fetch("https://lms-system-zm6u.onrender.com/student-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -108,7 +108,7 @@ export default function Studentauth() {
     e.preventDefault();
     setSendingOTP(true);
     try {
-      const res = await fetch("http://localhost:5000/forgot-password", {
+      const res = await fetch("https://lms-system-zm6u.onrender.com/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email }),
@@ -134,7 +134,7 @@ export default function Studentauth() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/reset-password", {
+      const res = await fetch("https://lms-system-zm6u.onrender.com/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -9,7 +9,7 @@ export default function FacultyMyCourses() {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const res = await axios.get("http://localhost:5000/faculty-courses", {
+      const res = await axios.get("https://lms-system-zm6u.onrender.com/faculty-courses", {
         withCredentials: true,
       });
       setCourses(res.data);
@@ -31,7 +31,7 @@ export default function FacultyMyCourses() {
           >
             {c.image && (
               <img
-                src={`http://localhost:5000${c.image}`}
+                src={`https://lms-system-zm6u.onrender.com${c.image}`}
                 alt={c.title}
               />
             )}

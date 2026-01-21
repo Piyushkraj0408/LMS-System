@@ -14,7 +14,7 @@ export default function Facultyuquiz() {
   // 🔄 Fetch faculty courses
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-courses", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-courses", { withCredentials: true })
       .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -22,7 +22,7 @@ export default function Facultyuquiz() {
   // 🔄 Fetch quizzes created by faculty
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-quizzes", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-quizzes", { withCredentials: true })
       .then((res) => setQuizzes(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -44,7 +44,7 @@ export default function Facultyuquiz() {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/quiz-results/${selectedQuizId}`,
+        `https://lms-system-zm6u.onrender.com/quiz-results/${selectedQuizId}`,
         { withCredentials: true }
       );
 
@@ -65,7 +65,7 @@ export default function Facultyuquiz() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/create-quiz",
+        "https://lms-system-zm6u.onrender.com/create-quiz",
         { title, courseId, questions },
         { withCredentials: true }
       );

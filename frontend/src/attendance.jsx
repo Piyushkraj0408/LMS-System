@@ -9,7 +9,7 @@ export default function Attendeance() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/my-courses", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/my-courses", { withCredentials: true })
       .then((res) => {
         setCourses(res.data);
         setLoading(false);

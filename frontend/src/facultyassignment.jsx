@@ -14,7 +14,7 @@ export default function FacultyAssignment() {
   // 🔄 Load faculty courses
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-courses", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-courses", { withCredentials: true })
       .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -22,7 +22,7 @@ export default function FacultyAssignment() {
   // 🔄 Load faculty assignments
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty-assignments", { withCredentials: true })
+      .get("https://lms-system-zm6u.onrender.com/faculty-assignments", { withCredentials: true })
       .then((res) => {
         console.log("Assignments:", res.data);
         setAssignments(res.data);
@@ -34,7 +34,7 @@ export default function FacultyAssignment() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/create-assignment",
+        "https://lms-system-zm6u.onrender.com/create-assignment",
         { title, description, courseId, dueDate },
         { withCredentials: true }
       );

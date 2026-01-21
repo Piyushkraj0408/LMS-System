@@ -18,7 +18,7 @@ export default function FacultyCourse() {
   // 🔄 Fetch all faculty courses
   const fetchCourses = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/faculty-courses", {
+      const res = await axios.get("https://lms-system-zm6u.onrender.com/faculty-courses", {
         withCredentials: true,
       });
       setCourses(res.data);
@@ -52,7 +52,7 @@ export default function FacultyCourse() {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/create-course",
+        "https://lms-system-zm6u.onrender.com/create-course",
         formData,
         {
           withCredentials: true,
@@ -134,7 +134,7 @@ export default function FacultyCourse() {
           >
             {c.image && (
               <img
-                src={`http://localhost:5000${c.image}`}
+                src={`https://lms-system-zm6u.onrender.com${c.image}`}
                 alt={c.title}
               />
             )}

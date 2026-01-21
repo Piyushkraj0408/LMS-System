@@ -13,7 +13,7 @@ export default function StudentAttendance() {
     console.log("📌 Course ID:", courseId);
 
     axios
-      .get(`http://localhost:5000/my-attendance/${courseId}`, {
+      .get(`https://lms-system-zm6u.onrender.com/my-attendance/${courseId}`, {
         withCredentials: true,
       })
       .then((res) => {
